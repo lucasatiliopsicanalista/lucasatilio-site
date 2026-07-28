@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Admin | Lucas Atilio</title>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --azul:#1a3a4a;--azul-m:#2d6a7f;--azul-c:#4a9ab5;
+  --verde:#3d7a6e;--verde-c:#5aab99;
+  --bg:#f0f4f3;--branco:#fff;--cinza:#6b7c75;--borda:#e0e8e5;
+  --danger:#c0392b;--warning:#e67e22;--success:#27ae60;
+}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--azul)}
+
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#1a3a4a,#2d6a7f)}
+.login-box{background:var(--branco);border-radius:20px;padding:48px 40px;width:360px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.2)}
+.login-box h1{font-size:1.6rem;color:var(--azul);margin-bottom:6px}
+.login-box p{color:var(--cinza);font-size:0.85rem;margin-bottom:32px}
+.login-box input{width:100%;padding:12px 16px;border:1.5px solid var(--borda);border-radius:10px;font-size:1rem;margin-bottom:12px;outline:none;transition:.2s}
+.login-box input:focus{border-color:var(--azul-c)}
+.login-box button{width:100%;padding:13px;background:var(--verde);color:#fff;border:none;border-radius:10px;font-size:1rem;font-weight:600;cursor:pointer;transition:.2s}
+.login-box button:hover{background:var(--verde-c)}
+.login-error{color:var(--danger);font-size:0.82rem;margin-top:8px;display:none}
+
+#app{display:none;min-height:100vh}
+header{background:var(--azul);color:#fff;padding:16px 32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px}
+header h1{font-size:1.1rem;font-weight:600}
+.header-right{display:flex;align-items:center;gap:12px;font-size:0.85rem;color:rgba(255,255,255,0.7);flex-wrap:wrap}
+.btn-logout{background:rgba(255,255,255,0.15);color:#fff;border:none;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.82rem;transition:.2s}
+.btn-logout:hover{background:rgba(255,255,255,0.25)}
+.btn-gcal{display:flex;align-items:center;gap:8px;background:#fff;color:#1a3a4a;border:none;padding:7px 16px;border-radius:20px;cursor:pointer;font-size:0.82rem;font-weight:600;transition:.2s}
+.btn-gcal:hover{background:#f0f0f0}
+.gcal-status{display:flex;align-items:center;gap:6px;font-size:0.8rem}
+.gcal-dot{width:8px;height:8px;border-radius:50%;background:#aaa}
+.gcal-dot.connected{background:#27ae60}
+
+.tabs{background:var(--branco);border-bottom:2px solid var(--borda);display:flex;padding:0 32px;gap:4px}
+.tab{padding:14px 22px;cursor:pointer;font-size:0.88rem;font-weight:500;color:var(--cinza);border-bottom:2px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab.active{color:var(--verde);border-bottom-color:var(--verde)}
+.tab:hover{color:var(--azul-m)}
+
+.content{padding:28px 32px;max-width:1100px;margin:0 auto}
+
+.resumo{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.card-resumo{background:var(--branco);border-radius:14px;padding:20px 24px;border:1px solid var(--borda)}
+.card-resumo .num{font-size:2rem;font-weight:700;color:var(--azul)}
+.card-resumo .label{font-size:0.78rem;color:var(--cinza);margin-top:4px}
+.card-resumo.verde .num{color:var(--verde)}
+.card-resumo.warning .num{color:var(--warning)}
+.card-resumo.danger .num{color:var(--danger)}
+
+.sec-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
+.sec-header h2{font-size:1.1rem;color:var(--azul)}
+.btn{padding:9px 20px;border:none;border-radius:8px;cursor:pointer;font-size:0.85rem;font-weight:500;transition:.2s}
+.btn-primary{background:var(--verde);color:#fff}
+.btn-primary:hover{background:var(--verde-c)}
+.btn-sm{padding:5px 12px;font-size:0.78rem;border-radius:6px}
+.btn-danger{background:#fdecea;color:var(--danger)}
+.btn-danger:hover{background:var(--danger);color:#fff}
+.btn-edit{background:#e8f4f0;color:var(--verde)}
+.btn-edit:hover{background:var(--verde);color:#fff}
+
+.table-wrap{background:var(--branco);border-radius:14px;border:1px solid var(--borda);overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{background:#f7faf9;padding:12px 16px;text-align:left;font-size:0.78rem;font-weight:600;color:var(--cinza);text-transform:uppercase;letter-spacing:.5px}
+td{padding:13px 16px;font-size:0.87rem;border-top:1px solid var(--borda)}
+tr:hover td{background:#fafcfb}
+.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:500}
+.badge-online{background:#e8f4f0;color:var(--verde)}
+.badge-presencial{background:#e8f0f5;color:var(--azul-m)}
+.badge-pago{background:#eafaf1;color:var(--success)}
+.badge-pendente{background:#fef9e7;color:var(--warning)}
+.badge-atrasado{background:#fdecea;color:var(--danger)}
+.badge-gcal{background:#e8f0ff;color:#1a73e8;font-size:0.72rem}
+
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:1000;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--branco);border-radius:18px;padding:36px;width:500px;max-width:95vw;max-height:90vh;overflow-y:auto}
+.modal h3{font-size:1.2rem;color:var(--azul);margin-bottom:24px}
+.form-group{margin-bottom:16px}
+.form-group label{display:block;font-size:0.82rem;font-weight:500;color:var(--cinza);margin-bottom:6px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:10px 14px;border:1.5px solid var(--borda);border-radius:8px;font-size:0.9rem;outline:none;transition:.2s;font-family:inherit}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--azul-c)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.modal-btns{display:flex;gap:10px;justify-content:flex-end;margin-top:24px}
+.btn-cancel{background:var(--bg);color:var(--cinza);border:1px solid var(--borda)}
+.btn-cancel:hover{background:var(--borda)}
+
+.gcal-info{background:#e8f0ff;border:1px solid #c5d8ff;border-radius:10px;padding:12px 16px;font-size:0.82rem;color:#1a3a8a;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+.empty{text-align:center;padding:48px;color:var(--cinza);font-size:0.9rem}
+.filtros{display:flex;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.filtro-input{padding:8px 14px;border:1.5px solid var(--borda);border-radius:8px;font-size:0.85rem;outline:none;background:var(--branco)}
+.filtro-input:focus{border-color:var(--azul-c)}
+
+.page{display:none}
+.page.active{display:block}
+
+.toast{position:fixed;bottom:24px;right:24px;background:#1a3a4a;color:#fff;padding:12px 20px;border-radius:10px;font-size:0.87rem;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-box">
+    <h1>Lucas Atilio</h1>
+    <p>Painel Administrativo</p>
+    <input type="text" id="login-user" placeholder="Usuário" autocomplete="off"/>
+    <input type="password" id="login-pass" placeholder="Senha"/>
+    <button onclick="fazerLogin()">Entrar</button>
+    <div class="login-error" id="login-error">Usuário ou senha incorretos.</div>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <h1>⚕️ Painel Administrativo — Lucas Atilio</h1>
+    <div class="header-right">
+      <span id="data-hoje"></span>
+      <div class="gcal-status">
+        <div class="gcal-dot" id="gcal-dot"></div>
+        <span id="gcal-label">Google Calendar desconectado</span>
+      </div>
+      <button class="btn-gcal" id="btn-gcal" onclick="conectarGoogle()">
+        <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+        Conectar Google
+      </button>
+      <button class="btn-logout" onclick="logout()">Sair</button>
+    </div>
+  </header>
+
+  <div class="tabs">
+    <div class="tab active" onclick="mudarTab('dashboard')">Dashboard</div>
+    <div class="tab" onclick="mudarTab('pacientes')">Pacientes</div>
+    <div class="tab" onclick="mudarTab('sessoes')">Sessões</div>
+    <div class="tab" onclick="mudarTab('financeiro')">Financeiro</div>
+    <div class="tab" onclick="mudarTab('agendamentos')">📅 Agendamentos <span id="badge-agendamentos" style="background:#e74c3c;color:#fff;border-radius:50%;padding:1px 6px;font-size:0.72rem;margin-left:4px;display:none"></span></div>
+    <div class="tab" onclick="mudarTab('contatos')">📩 Contatos <span id="badge-contatos" style="background:#e74c3c;color:#fff;border-radius:50%;padding:1px 6px;font-size:0.72rem;margin-left:4px;display:none"></span></div>
+  </div>
+
+  <!-- DASHBOARD -->
+  <div class="content page active" id="tab-dashboard">
+    <div class="resumo" id="cards-resumo"></div>
+    <div class="sec-header"><h2>Próximas sessões</h2></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Paciente</th><th>Data</th><th>Horário</th><th>Modalidade</th><th>Status Pgto</th><th>Calendar</th></tr></thead>
+      <tbody id="proximas-tbody"></tbody>
+    </table></div>
+  </div>
+
+  <!-- PACIENTES -->
+  <div class="content page" id="tab-pacientes">
+    <div class="sec-header">
+      <h2>Pacientes</h2>
+      <button class="btn btn-primary" onclick="abrirModalPaciente()">+ Novo paciente</button>
+    </div>
+    <div class="filtros">
+      <input class="filtro-input" placeholder="🔍 Buscar paciente..." oninput="filtrarPacientes(this.value)" style="width:240px"/>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Nome</th><th>Telefone</th><th>Email</th><th>Modalidade</th><th>Valor/sessão</th><th>Ações</th></tr></thead>
+      <tbody id="pacientes-tbody"></tbody>
+    </table></div>
+  </div>
+
+  <!-- SESSÕES -->
+  <div class="content page" id="tab-sessoes">
+    <div class="sec-header">
+      <h2>Sessões</h2>
+      <button class="btn btn-primary" onclick="abrirModalSessao()">+ Nova sessão</button>
+    </div>
+    <div class="filtros">
+      <select class="filtro-input" onchange="filtrarSessoes(this.value,'modalidade')">
+        <option value="">Todas modalidades</option>
+        <option value="Online">Online</option>
+        <option value="Presencial">Presencial</option>
+      </select>
+      <select class="filtro-input" onchange="filtrarSessoes(this.value,'mes')">
+        <option value="">Todos os meses</option>
+        <option value="01">Janeiro</option><option value="02">Fevereiro</option>
+        <option value="03">Março</option><option value="04">Abril</option>
+        <option value="05">Maio</option><option value="06">Junho</option>
+        <option value="07">Julho</option><option value="08">Agosto</option>
+        <option value="09">Setembro</option><option value="10">Outubro</option>
+        <option value="11">Novembro</option><option value="12">Dezembro</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Paciente</th><th>Data</th><th>Horário</th><th>Modalidade</th><th>Link Meet</th><th>Pgto</th><th>Ações</th></tr></thead>
+      <tbody id="sessoes-tbody"></tbody>
+    </table></div>
+  </div>
+
+  <!-- AGENDAMENTOS -->
+  <div class="content page" id="tab-agendamentos">
+    <div class="sec-header">
+      <h2>Solicitações de agendamento</h2>
+      <button class="btn btn-danger btn-sm" onclick="limparAgendamentos()">Limpar confirmados</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Nome</th><th>Serviço</th><th>Data sugerida</th><th>Horário</th><th>Alternativa</th><th>Status</th><th>Ações</th></tr></thead>
+      <tbody id="agendamentos-tbody"></tbody>
+    </table></div>
+  </div>
+
+  <!-- CONTATOS -->
+  <div class="content page" id="tab-contatos">
+    <div class="sec-header">
+      <h2>Formulários recebidos</h2>
+      <button class="btn btn-danger btn-sm" onclick="limparContatos()">Limpar lidos</button>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Nome</th><th>Telefone</th><th>Modalidade</th><th>Urgência</th><th>Motivo</th><th>Recebido</th><th>Ação</th></tr></thead>
+      <tbody id="contatos-tbody"></tbody>
+    </table></div>
+  </div>
+
+  <!-- FINANCEIRO -->
+  <div class="content page" id="tab-financeiro">
+    <div class="resumo" id="cards-financeiro"></div>
+    <div class="sec-header"><h2>Controle de pagamentos</h2></div>
+    <div class="filtros">
+      <select class="filtro-input" onchange="filtrarFinanceiro(this.value)">
+        <option value="">Todos</option>
+        <option value="Pago">Pagos</option>
+        <option value="Pendente">Pendentes</option>
+        <option value="Atrasado">Atrasados</option>
+      </select>
+    </div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Paciente</th><th>Data sessão</th><th>Valor</th><th>Status</th><th>Alterar</th></tr></thead>
+      <tbody id="financeiro-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- MODAL PACIENTE -->
+<div class="modal-bg" id="modal-paciente">
+  <div class="modal">
+    <h3 id="modal-pac-titulo">Novo paciente</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Nome completo</label><input id="pac-nome" placeholder="Nome"/></div>
+      <div class="form-group"><label>Telefone</label><input id="pac-tel" placeholder="(11) 99999-9999"/></div>
+    </div>
+    <div class="form-group"><label>Email</label><input id="pac-email" placeholder="email@exemplo.com"/></div>
+    <div class="form-row">
+      <div class="form-group"><label>Modalidade padrão</label>
+        <select id="pac-modalidade"><option>Online</option><option>Presencial</option></select>
+      </div>
+      <div class="form-group"><label>Valor por sessão (R$)</label><input id="pac-valor" type="number" placeholder="150"/></div>
+    </div>
+    <div class="form-group"><label>Observações</label><textarea id="pac-obs" rows="2" placeholder="Anotações..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="fecharModal('modal-paciente')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarPaciente()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL SESSÃO -->
+<div class="modal-bg" id="modal-sessao">
+  <div class="modal">
+    <h3 id="modal-ses-titulo">Nova sessão</h3>
+    <div class="gcal-info" id="gcal-info" style="display:none">
+      📅 Essa sessão será adicionada automaticamente ao seu Google Calendar!
+    </div>
+    <div class="form-group"><label>Paciente</label>
+      <select id="ses-paciente"></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Data</label><input id="ses-data" type="date"/></div>
+      <div class="form-group"><label>Horário</label><input id="ses-hora" type="time"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Modalidade</label>
+        <select id="ses-modalidade" onchange="toggleMeet()">
+          <option>Online</option><option>Presencial</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Duração (min)</label>
+        <select id="ses-duracao">
+          <option value="50">50 min</option>
+          <option value="60">60 min</option>
+          <option value="90">90 min</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Status pagamento</label>
+      <select id="ses-pgto"><option>Pendente</option><option>Pago</option><option>Atrasado</option></select>
+    </div>
+    <div class="form-group" id="grupo-meet">
+      <label>Link Google Meet (gerado automaticamente se conectado)</label>
+      <input id="ses-meet" placeholder="https://meet.google.com/xxx-xxxx-xxx"/>
+    </div>
+    <div class="form-group"><label>Valor cobrado (R$)</label><input id="ses-valor" type="number" placeholder="150"/></div>
+    <div class="form-group"><label>Observações</label><textarea id="ses-obs" rows="2" placeholder="Notas da sessão..."></textarea></div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="fecharModal('modal-sessao')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarSessao()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const CLIENT_ID = '905955991419-tikttmfrjil9pf9j3jb1jg9kafe7m3c7.apps.googleusercontent.com';
+const SCOPES = 'https://www.googleapis.com/auth/calendar.events';
+const USUARIO = 'lucas';
+const SENHA = 'atilio2025';
+
+let tokenClient = null;
+let accessToken = localStorage.getItem('gcal_token') || null;
+let tokenExpiry = localStorage.getItem('gcal_expiry') || null;
+
+// --- AUTH LOCAL ---
+function fazerLogin(){
+  const u = document.getElementById('login-user').value;
+  const s = document.getElementById('login-pass').value;
+  if(u===USUARIO && s===SENHA){
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
+    init();
+  } else {
+    document.getElementById('login-error').style.display='block';
+  }
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Enter') fazerLogin() });
+function logout(){
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('app').style.display='none';
+}
+
+// --- GOOGLE AUTH ---
+function initGoogleAuth(){
+  if(!window.google) return;
+  tokenClient = google.accounts.oauth2.initTokenClient({
+    client_id: CLIENT_ID,
+    scope: SCOPES,
+    callback: (resp) => {
+      if(resp.error) { mostrarToast('Erro ao conectar Google: '+resp.error); return; }
+      accessToken = resp.access_token;
+      const expiry = Date.now() + (resp.expires_in * 1000);
+      localStorage.setItem('gcal_token', accessToken);
+      localStorage.setItem('gcal_expiry', expiry);
+      atualizarStatusGcal();
+      mostrarToast('✅ Google Calendar conectado!');
+    }
+  });
+  atualizarStatusGcal();
+}
+
+function conectarGoogle(){
+  if(!tokenClient){ mostrarToast('Aguarde o carregamento...'); return; }
+  if(isTokenValido()){
+    mostrarToast('✅ Já conectado ao Google Calendar!'); return;
+  }
+  tokenClient.requestAccessToken();
+}
+
+function isTokenValido(){
+  return accessToken && tokenExpiry && Date.now() < Number(tokenExpiry);
+}
+
+function atualizarStatusGcal(){
+  const dot = document.getElementById('gcal-dot');
+  const label = document.getElementById('gcal-label');
+  const btn = document.getElementById('btn-gcal');
+  if(isTokenValido()){
+    dot.classList.add('connected');
+    label.textContent = 'Google Calendar conectado';
+    btn.textContent = '✓ Conectado';
+    btn.style.background = '#e8f5e9';
+    btn.style.color = '#27ae60';
+  } else {
+    dot.classList.remove('connected');
+    label.textContent = 'Google Calendar desconectado';
+    accessToken = null;
+    localStorage.removeItem('gcal_token');
+    localStorage.removeItem('gcal_expiry');
+  }
+}
+
+async function criarEventoCalendar(sessao, paciente){
+  if(!isTokenValido()) return null;
+  const [y,m,d] = sessao.data.split('-');
+  const [h,min] = sessao.hora.split(':');
+  const dur = parseInt(sessao.duracao||50);
+  const start = new Date(y,m-1,d,h,min);
+  const end = new Date(start.getTime() + dur*60000);
+
+  const evento = {
+    summary: `Sessão — ${paciente.nome}`,
+    description: `Atendimento ${sessao.modalidade}\nPaciente: ${paciente.nome}\nTelefone: ${paciente.tel||'—'}\n${sessao.obs?'Obs: '+sessao.obs:''}`,
+    start: { dateTime: start.toISOString(), timeZone: 'America/Sao_Paulo' },
+    end: { dateTime: end.toISOString(), timeZone: 'America/Sao_Paulo' },
+    reminders: { useDefault: false, overrides: [{ method:'popup', minutes:30 }] }
+  };
+
+  if(sessao.modalidade === 'Online'){
+    evento.conferenceData = {
+      createRequest: { requestId: 'meet-'+Date.now(), conferenceSolutionKey: { type:'hangoutsMeet' } }
+    };
+  }
+
+  try {
+    const url = sessao.modalidade==='Online'
+      ? 'https://www.googleapis.com/calendar/v3/calendars/primary/events?conferenceDataVersion=1'
+      : 'https://www.googleapis.com/calendar/v3/calendars/primary/events';
+
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer '+accessToken, 'Content-Type': 'application/json' },
+      body: JSON.stringify(evento)
+    });
+    const data = await resp.json();
+    return data;
+  } catch(e) {
+    console.error(e);
+    return null;
+  }
+}
+
+// --- DADOS ---
+function getData(key){ return JSON.parse(localStorage.getItem(key)||'[]') }
+function setData(key,val){ localStorage.setItem(key,JSON.stringify(val)) }
+let pacientes = getData('pac');
+let sessoes = getData('ses');
+let editPacIdx = null;
+let editSesIdx = null;
+let filtroSesModalidade = '';
+let filtroSesMes = '';
+let filtroFinStatus = '';
+
+function init(){
+  const hoje = new Date();
+  document.getElementById('data-hoje').textContent = hoje.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
+  window.addEventListener('load', ()=>{ setTimeout(initGoogleAuth, 1000) });
+  if(window.google) initGoogleAuth();
+  renderDashboard();
+  atualizarBadgeContatos();
+  atualizarBadgeAgendamentos();
+}
+
+// --- TABS ---
+function mudarTab(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  const tabs=['dashboard','pacientes','sessoes','financeiro','contatos'];
+  const idx=tabs.indexOf(id);
+  const tabEls=document.querySelectorAll('.tab');
+  if(tabEls[idx]) tabEls[idx].classList.add('active');
+  const page=document.getElementById('tab-'+id);
+  if(page) page.classList.add('active');
+  if(id==='dashboard') renderDashboard();
+  if(id==='pacientes') renderPacientes();
+  if(id==='sessoes') renderSessoes();
+  if(id==='financeiro') renderFinanceiro();
+  if(id==='agendamentos') renderAgendamentos();
+  if(id==='contatos') renderContatos();
+}
+
+// --- DASHBOARD ---
+function renderDashboard(){
+  pacientes=getData('pac'); sessoes=getData('ses');
+  const hoje=new Date().toISOString().split('T')[0];
+  const proximas=sessoes.filter(s=>s.data>=hoje).sort((a,b)=>a.data.localeCompare(b.data)||a.hora.localeCompare(b.hora)).slice(0,8);
+  const pendentes=sessoes.filter(s=>s.pgto==='Pendente').length;
+  const totalRecebido=sessoes.filter(s=>s.pgto==='Pago').reduce((a,s)=>a+Number(s.valor||0),0);
+  document.getElementById('cards-resumo').innerHTML=`
+    <div class="card-resumo"><div class="num">${pacientes.length}</div><div class="label">Pacientes ativos</div></div>
+    <div class="card-resumo"><div class="num">${proximas.length}</div><div class="label">Próximas sessões</div></div>
+    <div class="card-resumo warning"><div class="num">${pendentes}</div><div class="label">Pagamentos pendentes</div></div>
+    <div class="card-resumo verde"><div class="num">R$ ${totalRecebido.toLocaleString('pt-BR')}</div><div class="label">Total recebido</div></div>
+  `;
+  const tbody=document.getElementById('proximas-tbody');
+  if(!proximas.length){tbody.innerHTML='<tr><td colspan="6" class="empty">Nenhuma sessão agendada</td></tr>';return;}
+  tbody.innerHTML=proximas.map(s=>{
+    const pac=pacientes.find(p=>p.id===s.pacId);
+    const gcal=s.eventId?'<span class="badge badge-gcal">📅 No Calendar</span>':'—';
+    return `<tr>
+      <td>${pac?pac.nome:'—'}</td><td>${formatarData(s.data)}</td><td>${s.hora}</td>
+      <td><span class="badge badge-${s.modalidade==='Online'?'online':'presencial'}">${s.modalidade}</span></td>
+      <td><span class="badge badge-${s.pgto==='Pago'?'pago':s.pgto==='Atrasado'?'atrasado':'pendente'}">${s.pgto}</span></td>
+      <td>${gcal}</td>
+    </tr>`;
+  }).join('');
+}
+
+// --- PACIENTES ---
+function renderPacientes(filtro=''){
+  pacientes=getData('pac');
+  const tbody=document.getElementById('pacientes-tbody');
+  const lista=filtro?pacientes.filter(p=>p.nome.toLowerCase().includes(filtro.toLowerCase())):pacientes;
+  if(!lista.length){tbody.innerHTML='<tr><td colspan="6" class="empty">Nenhum paciente cadastrado</td></tr>';return;}
+  tbody.innerHTML=lista.map(p=>`<tr>
+    <td><strong>${p.nome}</strong></td><td>${p.tel||'—'}</td><td>${p.email||'—'}</td>
+    <td><span class="badge badge-${p.modalidade==='Online'?'online':'presencial'}">${p.modalidade}</span></td>
+    <td>R$ ${Number(p.valor||0).toLocaleString('pt-BR')}</td>
+    <td style="display:flex;gap:6px">
+      <button class="btn btn-sm btn-edit" onclick="editarPaciente(${pacientes.indexOf(p)})">Editar</button>
+      <button class="btn btn-sm btn-danger" onclick="excluirPaciente(${pacientes.indexOf(p)})">Excluir</button>
+    </td>
+  </tr>`).join('');
+}
+function filtrarPacientes(v){renderPacientes(v)}
+function abrirModalPaciente(idx=null){
+  editPacIdx=idx;
+  document.getElementById('modal-pac-titulo').textContent=idx!==null?'Editar paciente':'Novo paciente';
+  const p=idx!==null?pacientes[idx]:{};
+  document.getElementById('pac-nome').value=p.nome||'';
+  document.getElementById('pac-tel').value=p.tel||'';
+  document.getElementById('pac-email').value=p.email||'';
+  document.getElementById('pac-modalidade').value=p.modalidade||'Online';
+  document.getElementById('pac-valor').value=p.valor||'';
+  document.getElementById('pac-obs').value=p.obs||'';
+  document.getElementById('modal-paciente').classList.add('open');
+}
+function editarPaciente(i){abrirModalPaciente(i)}
+function excluirPaciente(i){
+  if(!confirm('Excluir este paciente?'))return;
+  pacientes.splice(i,1);setData('pac',pacientes);renderPacientes();
+}
+function salvarPaciente(){
+  const nome=document.getElementById('pac-nome').value.trim();
+  if(!nome){alert('Informe o nome');return;}
+  const p={id:editPacIdx!==null?pacientes[editPacIdx].id:Date.now(),nome,
+    tel:document.getElementById('pac-tel').value,email:document.getElementById('pac-email').value,
+    modalidade:document.getElementById('pac-modalidade').value,valor:document.getElementById('pac-valor').value,
+    obs:document.getElementById('pac-obs').value};
+  if(editPacIdx!==null)pacientes[editPacIdx]=p;else pacientes.push(p);
+  setData('pac',pacientes);fecharModal('modal-paciente');renderPacientes();
+}
+
+// --- SESSÕES ---
+function renderSessoes(){
+  sessoes=getData('ses');pacientes=getData('pac');
+  const tbody=document.getElementById('sessoes-tbody');
+  let lista=[...sessoes].sort((a,b)=>a.data.localeCompare(b.data)||a.hora.localeCompare(b.hora));
+  if(filtroSesModalidade)lista=lista.filter(s=>s.modalidade===filtroSesModalidade);
+  if(filtroSesMes)lista=lista.filter(s=>s.data.split('-')[1]===filtroSesMes);
+  if(!lista.length){tbody.innerHTML='<tr><td colspan="7" class="empty">Nenhuma sessão</td></tr>';return;}
+  tbody.innerHTML=lista.map(s=>{
+    const pac=pacientes.find(p=>p.id===s.pacId);
+    const idx=sessoes.indexOf(s);
+    const meet=s.meet?`<a href="${s.meet}" target="_blank" style="color:var(--verde);font-size:0.8rem">🔗 Abrir Meet</a>`:
+      (s.modalidade==='Online'?'<span style="color:#aaa;font-size:0.78rem">Sem link</span>':'—');
+    const gcal=s.eventId?'<span class="badge badge-gcal">📅</span>':'';
+    return `<tr>
+      <td><strong>${pac?pac.nome:'—'}</strong> ${gcal}</td>
+      <td>${formatarData(s.data)}</td><td>${s.hora}</td>
+      <td><span class="badge badge-${s.modalidade==='Online'?'online':'presencial'}">${s.modalidade}</span></td>
+      <td>${meet}</td>
+      <td><span class="badge badge-${s.pgto==='Pago'?'pago':s.pgto==='Atrasado'?'atrasado':'pendente'}">${s.pgto}</span></td>
+      <td style="display:flex;gap:6px">
+        <button class="btn btn-sm btn-edit" onclick="editarSessao(${idx})">Editar</button>
+        <button class="btn btn-sm btn-danger" onclick="excluirSessao(${idx})">Excluir</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function filtrarSessoes(val,tipo){
+  if(tipo==='modalidade')filtroSesModalidade=val;
+  if(tipo==='mes')filtroSesMes=val;
+  renderSessoes();
+}
+function abrirModalSessao(idx=null){
+  editSesIdx=idx;pacientes=getData('pac');
+  document.getElementById('modal-ses-titulo').textContent=idx!==null?'Editar sessão':'Nova sessão';
+  document.getElementById('gcal-info').style.display=isTokenValido()?'flex':'none';
+  const sel=document.getElementById('ses-paciente');
+  sel.innerHTML=pacientes.map(p=>`<option value="${p.id}">${p.nome}</option>`).join('');
+  const s=idx!==null?sessoes[idx]:{};
+  if(s.pacId)sel.value=s.pacId;
+  document.getElementById('ses-data').value=s.data||new Date().toISOString().split('T')[0];
+  document.getElementById('ses-hora').value=s.hora||'09:00';
+  document.getElementById('ses-modalidade').value=s.modalidade||'Online';
+  document.getElementById('ses-duracao').value=s.duracao||'50';
+  document.getElementById('ses-pgto').value=s.pgto||'Pendente';
+  document.getElementById('ses-meet').value=s.meet||'';
+  document.getElementById('ses-valor').value=s.valor||'';
+  document.getElementById('ses-obs').value=s.obs||'';
+  toggleMeet();
+  document.getElementById('modal-sessao').classList.add('open');
+}
+function editarSessao(i){abrirModalSessao(i)}
+function excluirSessao(i){
+  if(!confirm('Excluir esta sessão?'))return;
+  sessoes.splice(i,1);setData('ses',sessoes);renderSessoes();
+}
+function toggleMeet(){
+  document.getElementById('grupo-meet').style.display=
+    document.getElementById('ses-modalidade').value==='Online'?'block':'none';
+}
+async function salvarSessao(){
+  const pacId=document.getElementById('ses-paciente').value;
+  const data=document.getElementById('ses-data').value;
+  if(!pacId||!data){alert('Selecione o paciente e a data');return;}
+  const s={
+    id:editSesIdx!==null?sessoes[editSesIdx].id:Date.now(),
+    pacId,data,hora:document.getElementById('ses-hora').value,
+    modalidade:document.getElementById('ses-modalidade').value,
+    duracao:document.getElementById('ses-duracao').value,
+    pgto:document.getElementById('ses-pgto').value,
+    meet:document.getElementById('ses-meet').value,
+    valor:document.getElementById('ses-valor').value,
+    obs:document.getElementById('ses-obs').value,
+    eventId:editSesIdx!==null?sessoes[editSesIdx].eventId:null
+  };
+
+  // Criar no Google Calendar se conectado e sessão nova
+  if(isTokenValido() && editSesIdx===null){
+    mostrarToast('⏳ Criando evento no Google Calendar...');
+    const pac=pacientes.find(p=>p.id===s.pacId);
+    const evento=await criarEventoCalendar(s,pac||{nome:'Paciente'});
+    if(evento && evento.id){
+      s.eventId=evento.id;
+      if(evento.conferenceData?.entryPoints){
+        const meetLink=evento.conferenceData.entryPoints.find(e=>e.entryPointType==='video');
+        if(meetLink) s.meet=meetLink.uri;
+      }
+      mostrarToast('✅ Evento criado no Google Calendar!');
+    } else {
+      mostrarToast('⚠️ Sessão salva, mas erro ao criar no Calendar');
+    }
+  }
+
+  if(editSesIdx!==null)sessoes[editSesIdx]=s;else sessoes.push(s);
+  setData('ses',sessoes);
+  fecharModal('modal-sessao');
+  renderSessoes();
+}
+
+// --- FINANCEIRO ---
+function renderFinanceiro(){
+  sessoes=getData('ses');pacientes=getData('pac');
+  const lista=filtroFinStatus?sessoes.filter(s=>s.pgto===filtroFinStatus):sessoes;
+  const pago=sessoes.filter(s=>s.pgto==='Pago').reduce((a,s)=>a+Number(s.valor||0),0);
+  const pendente=sessoes.filter(s=>s.pgto==='Pendente').reduce((a,s)=>a+Number(s.valor||0),0);
+  const atrasado=sessoes.filter(s=>s.pgto==='Atrasado').reduce((a,s)=>a+Number(s.valor||0),0);
+  document.getElementById('cards-financeiro').innerHTML=`
+    <div class="card-resumo verde"><div class="num">R$ ${pago.toLocaleString('pt-BR')}</div><div class="label">Recebido</div></div>
+    <div class="card-resumo warning"><div class="num">R$ ${pendente.toLocaleString('pt-BR')}</div><div class="label">A receber</div></div>
+    <div class="card-resumo danger"><div class="num">R$ ${atrasado.toLocaleString('pt-BR')}</div><div class="label">Em atraso</div></div>
+    <div class="card-resumo"><div class="num">R$ ${(pago+pendente+atrasado).toLocaleString('pt-BR')}</div><div class="label">Total geral</div></div>
+  `;
+  const tbody=document.getElementById('financeiro-tbody');
+  const sorted=[...lista].sort((a,b)=>a.data.localeCompare(b.data));
+  if(!sorted.length){tbody.innerHTML='<tr><td colspan="5" class="empty">Nenhum registro</td></tr>';return;}
+  tbody.innerHTML=sorted.map(s=>{
+    const pac=pacientes.find(p=>p.id===s.pacId);
+    const idx=sessoes.indexOf(s);
+    return `<tr>
+      <td><strong>${pac?pac.nome:'—'}</strong></td>
+      <td>${formatarData(s.data)}</td>
+      <td>R$ ${Number(s.valor||0).toLocaleString('pt-BR')}</td>
+      <td><span class="badge badge-${s.pgto==='Pago'?'pago':s.pgto==='Atrasado'?'atrasado':'pendente'}">${s.pgto}</span></td>
+      <td>
+        <select class="filtro-input" style="padding:4px 8px;font-size:0.8rem" onchange="alterarPgto(${idx},this.value)">
+          <option ${s.pgto==='Pendente'?'selected':''}>Pendente</option>
+          <option ${s.pgto==='Pago'?'selected':''}>Pago</option>
+          <option ${s.pgto==='Atrasado'?'selected':''}>Atrasado</option>
+        </select>
+      </td>
+    </tr>`;
+  }).join('');
+}
+function filtrarFinanceiro(v){filtroFinStatus=v;renderFinanceiro()}
+function alterarPgto(idx,val){sessoes[idx].pgto=val;setData('ses',sessoes);renderFinanceiro()}
+
+// --- AGENDAMENTOS ---
+function renderAgendamentos(){
+  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]').reverse();
+  const tbody=document.getElementById('agendamentos-tbody');
+  if(!ags.length){tbody.innerHTML='<tr><td colspan="7" class="empty">Nenhuma solicitação recebida ainda</td></tr>';return;}
+  tbody.innerHTML=ags.map(a=>{
+    const [y,m,d]=a.data.split('-');
+    const data2=a.data2?a.data2.split('-').reverse().join('/'):'—';
+    const statusCor=a.status==='Confirmado'?'badge-pago':a.status==='Cancelado'?'badge-atrasado':'badge-pendente';
+    const wppMsg=encodeURIComponent(`Olá ${a.nome}! Confirmei seu agendamento para ${d}/${m}/${y} às ${a.hora}. Até lá! 😊`);
+    return `<tr style="${a.status==='Aguardando confirmação'&&!a.lido?'background:#fffde7':''}">
+      <td>
+        <strong>${a.nome}</strong>${a.status==='Aguardando confirmação'&&!a.lido?'<span style="background:#e74c3c;color:#fff;border-radius:4px;padding:1px 6px;font-size:0.7rem;margin-left:6px">NOVO</span>':''}
+        <br><span style="font-size:0.78rem;color:var(--cinza)">${a.tel}</span>
+      </td>
+      <td style="font-size:0.85rem">${a.servico}</td>
+      <td>${d}/${m}/${y}</td>
+      <td>${a.hora}</td>
+      <td style="font-size:0.82rem;color:var(--cinza)">${data2}</td>
+      <td><span class="badge ${statusCor}">${a.status}</span></td>
+      <td>
+        <div style="display:flex;gap:6px;flex-wrap:wrap">
+          ${a.status==='Aguardando confirmação'?`
+            <button class="btn btn-sm btn-edit" onclick="confirmarAgendamento(${a.id})">✓ Confirmar</button>
+            <button class="btn btn-sm btn-danger" onclick="cancelarAgendamento(${a.id})">✗ Cancelar</button>
+            <a href="https://wa.me/55${a.tel.replace(/\D/g,'')}?text=${wppMsg}" target="_blank" class="btn btn-sm" style="background:#e8f4f0;color:var(--verde);text-decoration:none">WhatsApp</a>
+          `:`<span style="font-size:0.78rem;color:var(--cinza)">${new Date(a.criado).toLocaleDateString('pt-BR')}</span>`}
+        </div>
+      </td>
+    </tr>`;
+  }).join('');
+  atualizarBadgeAgendamentos();
+}
+function confirmarAgendamento(id){
+  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
+  const idx=ags.findIndex(a=>a.id===id);
+  if(idx!==-1){ags[idx].status='Confirmado';ags[idx].lido=true;localStorage.setItem('agendamentos',JSON.stringify(ags));}
+  mostrarToast('✅ Agendamento confirmado!');
+  renderAgendamentos();
+}
+function cancelarAgendamento(id){
+  if(!confirm('Cancelar este agendamento?'))return;
+  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
+  const idx=ags.findIndex(a=>a.id===id);
+  if(idx!==-1){ags[idx].status='Cancelado';ags[idx].lido=true;localStorage.setItem('agendamentos',JSON.stringify(ags));}
+  mostrarToast('❌ Agendamento cancelado.');
+  renderAgendamentos();
+}
+function limparAgendamentos(){
+  if(!confirm('Remover agendamentos confirmados e cancelados?'))return;
+  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]').filter(a=>a.status==='Aguardando confirmação');
+  localStorage.setItem('agendamentos',JSON.stringify(ags));
+  renderAgendamentos();
+}
+function atualizarBadgeAgendamentos(){
+  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
+  const novos=ags.filter(a=>!a.lido).length;
+  const badge=document.getElementById('badge-agendamentos');
+  if(novos>0){badge.textContent=novos;badge.style.display='inline';}
+  else badge.style.display='none';
+}
+
+// --- CONTATOS ---
+function renderContatos(){
+  const contatos=JSON.parse(localStorage.getItem('contatos')||'[]').reverse();
+  const tbody=document.getElementById('contatos-tbody');
+  if(!contatos.length){tbody.innerHTML='<tr><td colspan="7" class="empty">Nenhum contato recebido ainda</td></tr>';return;}
+  tbody.innerHTML=contatos.map((c,i)=>{
+    const urg=c.urgencia==='Urgente'?'badge-atrasado':c.urgencia==='Sem pressa'?'badge-pago':'badge-pendente';
+    const data=new Date(c.id).toLocaleDateString('pt-BR');
+    const hora=new Date(c.id).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'});
+    const wppMsg=encodeURIComponent(`Olá ${c.nome}! Vi sua mensagem no meu site e gostaria de conversar. Quando tiver um momento, podemos agendar?`);
+    return `<tr style="${!c.lido?'background:#fffde7':''}" id="contato-${c.id}">
+      <td><strong>${c.nome}</strong>${!c.lido?'<span style="background:#e74c3c;color:#fff;border-radius:4px;padding:1px 6px;font-size:0.7rem;margin-left:6px">NOVO</span>':''}</td>
+      <td><a href="https://wa.me/55${c.tel.replace(/\D/g,'')}?text=${wppMsg}" target="_blank" style="color:var(--verde)">${c.tel}</a></td>
+      <td><span class="badge badge-${c.modalidade==='Online'?'online':'presencial'}">${c.modalidade}</span></td>
+      <td><span class="badge ${urg}">${c.urgencia}</span></td>
+      <td style="max-width:200px;font-size:0.82rem;color:var(--cinza)">${c.motivo?.substring(0,80)}${c.motivo?.length>80?'...':''}</td>
+      <td style="font-size:0.8rem;color:var(--cinza)">${data}<br>${hora}</td>
+      <td><button class="btn btn-sm btn-edit" onclick="marcarLido(${c.id})">✓ Marcar lido</button></td>
+    </tr>`;
+  }).join('');
+  atualizarBadgeContatos();
+}
+function marcarLido(id){
+  const contatos=JSON.parse(localStorage.getItem('contatos')||'[]');
+  const idx=contatos.findIndex(c=>c.id===id);
+  if(idx!==-1){contatos[idx].lido=true;localStorage.setItem('contatos',JSON.stringify(contatos));}
+  renderContatos();
+}
+function limparContatos(){
+  if(!confirm('Remover todos os contatos já lidos?'))return;
+  const contatos=JSON.parse(localStorage.getItem('contatos')||'[]').filter(c=>!c.lido);
+  localStorage.setItem('contatos',JSON.stringify(contatos));
+  renderContatos();
+}
+function atualizarBadgeContatos(){
+  const contatos=JSON.parse(localStorage.getItem('contatos')||'[]');
+  const naoLidos=contatos.filter(c=>!c.lido).length;
+  const badge=document.getElementById('badge-contatos');
+  if(naoLidos>0){badge.textContent=naoLidos;badge.style.display='inline';}
+  else badge.style.display='none';
+}
+
+// --- UTILS ---
+function fecharModal(id){document.getElementById(id).classList.remove('open')}
+function formatarData(d){
+  if(!d)return'—';const[y,m,dia]=d.split('-');return`${dia}/${m}/${y}`;
+}
+function mostrarToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open')});
+});
+
+// Init Google quando script carregar
+window.onload = ()=>{ setTimeout(initGoogleAuth, 800) };
+</script>
+</body>
+</html>
