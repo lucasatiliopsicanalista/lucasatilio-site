@@ -906,7 +906,7 @@ async function renderContatos(){
     const wm=encodeURIComponent(`Olá ${c.nome}! Vi sua mensagem no meu site. Quando tiver um momento, podemos conversar?`);
     return`<tr style="${!c.lido?'background:#fffde7':''}">
       <td><strong>${c.nome}</strong>${!c.lido?'<span style="background:#e74c3c;color:#fff;border-radius:4px;padding:1px 6px;font-size:0.7rem;margin-left:6px">NOVO</span>':''}</td>
-      <td><a href="https://wa.me/55${c.tel.replace(/\D/g,'')}?text=${wm}" target="_blank" style="color:var(--verde)">${c.tel}</a></td>
+      <td><a href="https://wa.me/55${String(c.tel).replace(/\D/g,'')}?text=${wm}" target="_blank" style="color:var(--verde)">${c.tel}</a></td>
       <td><span class="badge badge-${c.modalidade==='Online'?'online':'presencial'}">${c.modalidade}</span></td>
       <td><span class="badge ${urg}">${c.urgencia}</span></td>
       <td style="max-width:200px;font-size:0.82rem;color:var(--cinza)">${c.motivo?.substring(0,80)}${c.motivo?.length>80?'...':''}</td>
