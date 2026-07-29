@@ -354,25 +354,37 @@ tr:hover td{background:#fafcfb}
 
 <script>
 const CLIENT_ID='905955991419-tikttmfrjil9pf9j3jb1jg9kafe7m3c7.apps.googleusercontent.com';
-const SCOPES='https://www.googleapis.com/auth/calendar.events';
+const SCOPES='https://www.googleapis.com/auth/calendar.events https://www.googleapis.com/auth/spreadsheets.readonly';
 const USUARIO='lucas', SENHA='atilio2025';
 const API_URL='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
 let tokenClient=null;
 let accessToken=localStorage.getItem('gcal_token')||null;
 let tokenExpiry=localStorage.getItem('gcal_expiry')||null;
 
-// API calls
+const SHEET_ID_DB='1Dzui97z50dMy1Zqpbdtw1Xhx2_8HDOJSTZ_oPZ0GScE';
+const SHEET_NAMES={
+  pacientes:'Pacientes',sessoes:'Sessoes',financeiro:'Financeiro',
+  prontuarios:'Prontuarios',contatos:'Contatos',agendamentos:'Agendamentos'
+};
+
 async function apiGet(sheet){
-  try{
-    const url=`${API_URL}?sheet=${sheet}&t=${Date.now()}`;
-    const r=await fetch(url,{redirect:'follow'});
-    const text=await r.text();
-    const d=JSON.parse(text);
-    return d.ok?d.data:[];
-  }catch(e){
-    console.error('apiGet error:',e);
+  if(!isTokenValido()){
+    console.warn('Token inválido para leitura');
     return[];
   }
+  try{
+    const sheetName=SHEET_NAMES[sheet]||sheet;
+    const url=`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID_DB}/values/${encodeURIComponent(sheetName)}`;
+    const r=await fetch(url,{headers:{'Authorization':'Bearer '+accessToken}});
+    const d=await r.json();
+    if(!d.values||d.values.length<=1)return[];
+    const headers=d.values[0];
+    return d.values.slice(1).map(row=>{
+      const obj={};
+      headers.forEach((h,i)=>{if(h)obj[h]=row[i]||'';});
+      return obj;
+    }).filter(obj=>Object.values(obj).some(v=>v!==''));
+  }catch(e){console.error('apiGet error:',e);return[];}
 }
 async function apiSave(sheet,row){
   try{
