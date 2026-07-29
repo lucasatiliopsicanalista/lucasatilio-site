@@ -769,12 +769,12 @@ function voltarProntuario(){
   document.getElementById('pront-detalhe').style.display='none';
   renderProntuario();
 }
-function renderDetalhe(){
-  const pronts=JSON.parse(localStorage.getItem('prontuarios')||'[]')
-    .filter(p=>p.pacId==prontPacId).sort((a,b)=>b.data.localeCompare(a.data));
-  sessoes=getData('ses');
-  const sp=sessoes.filter(s=>s.pacId==prontPacId);
-  const prog=pronts.filter(p=>p.evolucao.includes('⬆️')||p.evolucao.includes('↗️')).length;
+async function renderDetalhe(){
+  const allPronts=await apiGet('prontuarios');
+  const pronts=allPronts.filter(p=>String(p.pacId)===String(prontPacId)).sort((a,b)=>String(b.data).localeCompare(String(a.data)));
+  sessoes=await apiGet('sessoes');
+  const sp=sessoes.filter(s=>String(s.pacId)===String(prontPacId));
+  const prog=pronts.filter(p=>p.evolucao&&(p.evolucao.includes('⬆️')||p.evolucao.includes('↗️'))).length;
   document.getElementById('pront-cards').innerHTML=`
     <div class="card-resumo"><div class="num">${sp.length}</div><div class="label">Total de sessões</div></div>
     <div class="card-resumo"><div class="num">${pronts.length}</div><div class="label">Anotações registradas</div></div>
