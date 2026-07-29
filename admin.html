@@ -857,7 +857,7 @@ const[y,m,d]=dataStr.includes('-')?dataStr.split('-'):['','',''];    const d2=a.
         ${a.status==='Aguardando confirmação'?`
           <button class="btn btn-sm btn-edit" onclick="confirmarAgendamento(${a.id})">✓ Confirmar</button>
           <button class="btn btn-sm btn-danger" onclick="cancelarAgendamento(${a.id})">✗ Cancelar</button>
-          <a href="https://wa.me/55${a.tel.replace(/\D/g,'')}?text=${wm}" target="_blank" class="btn btn-sm btn-edit" style="text-decoration:none">WhatsApp</a>`
+          <a href="https://wa.me/55${String(a.tel).replace(/\D/g,'')}?text=${wm}" target="_blank" class="btn btn-sm btn-edit" style="text-decoration:none">WhatsApp</a>`
         :`<span style="font-size:0.78rem;color:var(--cinza)">${new Date(a.criado).toLocaleDateString('pt-BR')}</span>`}
       </div></td></tr>`;
   }).join('');
