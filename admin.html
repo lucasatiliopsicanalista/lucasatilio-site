@@ -840,7 +840,7 @@ async function renderAgendamentos(){
   const ags=[...agsTodos].reverse();
   esconderLoading();
   const tb=document.getElementById('agendamentos-tbody');
-  if(!ags.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhuma solicitação recebida</td></tr>';return;}
+  if(!ags.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhuma solicitação recebida</td></tr>';return;}console.log('agsTodos:', agsTodos, 'ags:', ags);
   tb.innerHTML=ags.map(a=>{
 const dataStr=a.data?String(a.data):'';
 const[y,m,d]=dataStr.includes('-')?dataStr.split('-'):['','',''];    const d2=a.data2?a.data2.split('-').reverse().join('/'):'—';
