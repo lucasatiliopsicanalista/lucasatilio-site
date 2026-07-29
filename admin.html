@@ -842,8 +842,8 @@ async function renderAgendamentos(){
   const tb=document.getElementById('agendamentos-tbody');
   if(!ags.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhuma solicitação recebida</td></tr>';return;}
   tb.innerHTML=ags.map(a=>{
-    const[y,m,d]=a.data.split('-');
-    const d2=a.data2?a.data2.split('-').reverse().join('/'):'—';
+const dataStr=a.data?String(a.data):'';
+const[y,m,d]=dataStr.includes('-')?dataStr.split('-'):['','',''];    const d2=a.data2?a.data2.split('-').reverse().join('/'):'—';
     const sc=a.status==='Confirmado'?'badge-pago':a.status==='Cancelado'?'badge-atrasado':'badge-pendente';
     const wm=encodeURIComponent(`Olá ${a.nome}! Confirmei seu agendamento para ${d}/${m}/${y} às ${a.hora}. Até lá! 😊`);
     return`<tr style="${a.status==='Aguardando confirmação'&&!a.lido?'background:#fffde7':''}">
