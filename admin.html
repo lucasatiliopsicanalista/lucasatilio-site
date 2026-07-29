@@ -755,8 +755,8 @@ async function renderProntuario(filtro=''){
   }).join('');
 }
 function filtrarProntuario(v){renderProntuario(v)}
-function abrirProntuario(pacId){
-  prontPacId=pacId;pacientes=getData('pac');
+async function abrirProntuario(pacId){
+  prontPacId=pacId;pacientes=await apiGet('pacientes');
   const pac=pacientes.find(p=>p.id==pacId);
   document.getElementById('pront-pac-nome').textContent='Prontuário — '+pac.nome;
   document.getElementById('pront-lista').style.display='none';
