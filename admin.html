@@ -640,8 +640,11 @@ async function renderSessoes(){
   }).join('');
 }
 function filtrarSessoes(v,t){if(t==='modalidade')filtroSesModalidade=v;if(t==='mes')filtroSesMes=v;renderSessoes();}
-function abrirModalSessao(idx=null){
-  editSesIdx=idx;pacientes=getData('pac');
+async function abrirModalSessao(idx=null){
+  editSesIdx=idx;
+  mostrarLoading('Carregando pacientes...');
+  pacientes=await apiGet('pacientes');
+  esconderLoading();
   document.getElementById('modal-ses-titulo').textContent=idx!==null?'Editar sessão':'Nova sessão';
   document.getElementById('gcal-info').style.display=isTokenValido()?'flex':'none';
   const sel=document.getElementById('ses-paciente');
