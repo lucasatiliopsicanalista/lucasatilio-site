@@ -895,7 +895,7 @@ async function atualizarBadgeAgendamentos(){
 async function renderContatos(){
   mostrarLoading('Carregando contatos...');
   const todos=await apiGet('contatos');
-  const contatos=[...todos].reverse();
+  const contatos=[...todos].reverse();console.log('contatos:', contatos);
   esconderLoading();
   const tb=document.getElementById('contatos-tbody');
   if(!contatos.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhum contato recebido</td></tr>';return;}
