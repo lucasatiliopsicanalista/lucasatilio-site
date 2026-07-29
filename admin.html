@@ -805,7 +805,7 @@ const sc=a.status==='Confirmado'?'badge-pago':a.status==='Cancelado'?'badge-atra
 const wm=encodeURIComponent(`Olá ${a.nome}! Confirmei seu agendamento para ${d}/${m}/${y} às ${a.hora}. Até lá! 😊`);
 return`<tr style="${a.status==='Aguardando confirmação'&&!a.lido?'background:#fffde7':''}">
 <td><strong>${a.nome}</strong>${a.status==='Aguardando confirmação'&&!a.lido?'<span style="background:#e74c3c;color:#fff;border-radius:4px;padding:1px 6px;font-size:0.7rem;margin-left:6px">NOVO</span>':''}
-<br><span style="font-size:0.78rem;color:var(--cinza)">${a.tel}</span></td>
+<br><span style="font-size:0.78rem;color:var(--cinza)">${String(a.tel||'')}</span></td>
 <td style="font-size:0.85rem">${a.servico}</td>
 <td>${d}/${m}/${y}</td><td>${a.hora}</td>
 <td style="font-size:0.82rem;color:var(--cinza)">${d2}</td>
@@ -814,7 +814,7 @@ return`<tr style="${a.status==='Aguardando confirmação'&&!a.lido?'background:#
 ${a.status==='Aguardando confirmação'?`
 <button class="btn btn-sm btn-edit" onclick="confirmarAgendamento(${a.id})">✓ Confirmar</button>
 <button class="btn btn-sm btn-danger" onclick="cancelarAgendamento(${a.id})">✗ Cancelar</button>
-<a href="https://wa.me/55${a.tel.replace(/\D/g,'')}?text=${wm}" target="_blank" class="btn btn-sm btn-edit" style="text-decoration:none">WhatsApp</a>`
+<a href="https://wa.me/55${String(a.tel||'').replace(/\D/g,'')}?text=${wm}" target="_blank" class="btn btn-sm btn-edit" style="text-decoration:none">WhatsApp</a>`
 :`<span style="font-size:0.78rem;color:var(--cinza)">${new Date(a.criado).toLocaleDateString('pt-BR')}</span>`}
 </div></td></tr>`;
 }).join('');
@@ -862,7 +862,7 @@ const hora=new Date(c.id).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-d
 const wm=encodeURIComponent(`Olá ${c.nome}! Vi sua mensagem no meu site. Quando tiver um momento, podemos conversar?`);
 return`<tr style="${!c.lido?'background:#fffde7':''}">
 <td><strong>${c.nome}</strong>${!c.lido?'<span style="background:#e74c3c;color:#fff;border-radius:4px;padding:1px 6px;font-size:0.7rem;margin-left:6px">NOVO</span>':''}</td>
-<td><a href="https://wa.me/55${c.tel.replace(/\D/g,'')}?text=${wm}" target="_blank" style="color:var(--verde)">${c.tel}</a></td>
+<td><a href="https://wa.me/55${String(c.tel||'').replace(/\D/g,'')}?text=${wm}" target="_blank" style="color:var(--verde)">${String(c.tel||'')}</a></td>
 <td><span class="badge badge-${c.modalidade==='Online'?'online':'presencial'}">${c.modalidade}</span></td>
 <td><span class="badge ${urg}">${c.urgencia}</span></td>
 <td style="max-width:200px;font-size:0.82rem;color:var(--cinza)">${c.motivo?.substring(0,80)}${c.motivo?.length>80?'...':''}</td>
