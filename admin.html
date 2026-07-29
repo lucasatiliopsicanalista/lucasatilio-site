@@ -367,24 +367,23 @@ const SHEET_NAMES={
   prontuarios:'Prontuarios',contatos:'Contatos',agendamentos:'Agendamentos'
 };
 
-async function apiGet(sheet){
-  if(!isTokenValido()){
-    console.warn('Token inválido para leitura');
-    return[];
-  }
-  try{
-    const sheetName=SHEET_NAMES[sheet]||sheet;
-    const url=`https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID_DB}/values/${encodeURIComponent(sheetName)}`;
-    const r=await fetch(url,{headers:{'Authorization':'Bearer '+accessToken}});
-    const d=await r.json();
-    if(!d.values||d.values.length<=1)return[];
-    const headers=d.values[0];
-    return d.values.slice(1).map(row=>{
-      const obj={};
-      headers.forEach((h,i)=>{if(h)obj[h]=row[i]||'';});
-      return obj;
-    }).filter(obj=>Object.values(obj).some(v=>v!==''));
-  }catch(e){console.error('apiGet error:',e);return[];}
+function apiGet(sheet){
+  return new Promise((resolve)=>{
+    const callbackName='cb_'+sheet+'_'+Date.now();
+    const script=document.createElement('script');
+    script.src=`${API_URL}?sheet=${sheet}&callback=${callbackName}`;
+    window[callbackName]=(data)=>{
+      delete window[callbackName];
+      document.body.removeChild(script);
+      resolve(data.ok?data.data:[]);
+    };
+    script.onerror=()=>{
+      delete window[callbackName];
+      document.body.removeChild(script);
+      resolve([]);
+    };
+    document.body.appendChild(script);
+  });
 }
 async function apiSave(sheet,row){
   try{
