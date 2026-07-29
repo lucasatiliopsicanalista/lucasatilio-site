@@ -356,9 +356,37 @@ tr:hover td{background:#fafcfb}
 const CLIENT_ID='905955991419-tikttmfrjil9pf9j3jb1jg9kafe7m3c7.apps.googleusercontent.com';
 const SCOPES='https://www.googleapis.com/auth/calendar.events';
 const USUARIO='lucas', SENHA='atilio2025';
+const API_URL='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
 let tokenClient=null;
 let accessToken=localStorage.getItem('gcal_token')||null;
 let tokenExpiry=localStorage.getItem('gcal_expiry')||null;
+
+// API calls
+async function apiGet(sheet){
+  try{
+    const r=await fetch(`${API_URL}?sheet=${sheet}`);
+    const d=await r.json();
+    return d.ok?d.data:[];
+  }catch(e){console.error(e);return[];}
+}
+async function apiSave(sheet,row){
+  try{
+    const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({sheet,action:'save',row})});
+    return await r.json();
+  }catch(e){console.error(e);return null;}
+}
+async function apiDelete(sheet,id){
+  try{
+    const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({sheet,action:'delete',row:{id}})});
+    return await r.json();
+  }catch(e){console.error(e);return null;}
+}
+async function apiUpdate(sheet,row){
+  try{
+    const r=await fetch(API_URL,{method:'POST',body:JSON.stringify({sheet,action:'update',row})});
+    return await r.json();
+  }catch(e){console.error(e);return null;}
+}
 
 function fazerLogin(){
   const u=document.getElementById('login-user').value;
@@ -438,18 +466,28 @@ async function criarEventoCalendar(s,pac){
   }catch(e){return null;}
 }
 
-function getData(k){return JSON.parse(localStorage.getItem(k)||'[]')}
-function setData(k,v){localStorage.setItem(k,JSON.stringify(v))}
-let pacientes=getData('pac'),sessoes=getData('ses');
+let pacientes=[],sessoes=[];
 let editPacIdx=null,editSesIdx=null;
 let filtroSesModalidade='',filtroSesMes='',filtroFinStatus='';
 let prontPacId=null;
 
-function init(){
+function mostrarLoading(msg='Carregando...'){
+  document.getElementById('toast').textContent='⏳ '+msg;
+  document.getElementById('toast').classList.add('show');
+}
+function esconderLoading(){
+  setTimeout(()=>document.getElementById('toast').classList.remove('show'),500);
+}
+
+async function init(){
   const hoje=new Date();
   document.getElementById('data-hoje').textContent=hoje.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long'});
   if(window.google)initGoogleAuth();
   else window.addEventListener('load',()=>setTimeout(initGoogleAuth,800));
+  mostrarLoading('Carregando dados...');
+  pacientes=await apiGet('pacientes');
+  sessoes=await apiGet('sessoes');
+  esconderLoading();
   renderDashboard();
   atualizarBadgeContatos();
   atualizarBadgeAgendamentos();
@@ -473,8 +511,11 @@ function mudarTab(id){
   if(id==='contatos')renderContatos();
 }
 
-function renderDashboard(){
-  pacientes=getData('pac');sessoes=getData('ses');
+async function renderDashboard(){
+  mostrarLoading('Atualizando...');
+  pacientes=await apiGet('pacientes');
+  sessoes=await apiGet('sessoes');
+  esconderLoading();
   const hoje=new Date().toISOString().split('T')[0];
   const prox=sessoes.filter(s=>s.data>=hoje).sort((a,b)=>a.data.localeCompare(b.data)||a.hora.localeCompare(b.hora)).slice(0,8);
   const pend=sessoes.filter(s=>s.pgto==='Pendente').length;
@@ -495,8 +536,10 @@ function renderDashboard(){
   }).join('');
 }
 
-function renderPacientes(filtro=''){
-  pacientes=getData('pac');
+async function renderPacientes(filtro=''){
+  mostrarLoading('Carregando pacientes...');
+  pacientes=await apiGet('pacientes');
+  esconderLoading();
   const tb=document.getElementById('pacientes-tbody');
   const lista=filtro?pacientes.filter(p=>p.nome.toLowerCase().includes(filtro.toLowerCase())):pacientes;
   if(!lista.length){tb.innerHTML='<tr><td colspan="6" class="empty">Nenhum paciente cadastrado</td></tr>';return;}
@@ -523,23 +566,30 @@ function abrirModalPaciente(idx=null){
   document.getElementById('modal-paciente').classList.add('open');
 }
 function editarPaciente(i){abrirModalPaciente(i)}
-function excluirPaciente(i){
+async function excluirPaciente(i){
   if(!confirm('Excluir?'))return;
-  pacientes.splice(i,1);setData('pac',pacientes);renderPacientes();
+  await apiDelete('pacientes',pacientes[i].id);
+  renderPacientes();
 }
-function salvarPaciente(){
+async function salvarPaciente(){
   const nome=document.getElementById('pac-nome').value.trim();
   if(!nome){alert('Informe o nome');return;}
   const p={id:editPacIdx!==null?pacientes[editPacIdx].id:Date.now(),nome,
     tel:document.getElementById('pac-tel').value,email:document.getElementById('pac-email').value,
     modalidade:document.getElementById('pac-modalidade').value,valor:document.getElementById('pac-valor').value,
     obs:document.getElementById('pac-obs').value};
-  if(editPacIdx!==null)pacientes[editPacIdx]=p;else pacientes.push(p);
-  setData('pac',pacientes);fecharModal('modal-paciente');renderPacientes();
+  mostrarLoading('Salvando...');
+  if(editPacIdx!==null)await apiUpdate('pacientes',p);
+  else await apiSave('pacientes',p);
+  fecharModal('modal-paciente');
+  renderPacientes();
 }
 
-function renderSessoes(){
-  sessoes=getData('ses');pacientes=getData('pac');
+async function renderSessoes(){
+  mostrarLoading('Carregando sessões...');
+  sessoes=await apiGet('sessoes');
+  pacientes=await apiGet('pacientes');
+  esconderLoading();
   const tb=document.getElementById('sessoes-tbody');
   let lista=[...sessoes].sort((a,b)=>a.data.localeCompare(b.data)||a.hora.localeCompare(b.hora));
   if(filtroSesModalidade)lista=lista.filter(s=>s.modalidade===filtroSesModalidade);
@@ -582,7 +632,11 @@ function abrirModalSessao(idx=null){
   document.getElementById('modal-sessao').classList.add('open');
 }
 function editarSessao(i){abrirModalSessao(i)}
-function excluirSessao(i){if(!confirm('Excluir?'))return;sessoes.splice(i,1);setData('ses',sessoes);renderSessoes();}
+async function excluirSessao(i){
+  if(!confirm('Excluir?'))return;
+  await apiDelete('sessoes',sessoes[i].id);
+  renderSessoes();
+}
 function toggleMeet(){document.getElementById('grupo-meet').style.display=document.getElementById('ses-modalidade').value==='Online'?'block':'none';}
 async function salvarSessao(){
   const pacId=document.getElementById('ses-paciente').value;
@@ -606,12 +660,17 @@ async function salvarSessao(){
       mostrarToast('✅ Criado no Google Calendar!');
     }
   }
-  if(editSesIdx!==null)sessoes[editSesIdx]=s;else sessoes.push(s);
-  setData('ses',sessoes);fecharModal('modal-sessao');renderSessoes();
+  mostrarLoading('Salvando sessão...');
+  if(editSesIdx!==null)await apiUpdate('sessoes',s);
+  else await apiSave('sessoes',s);
+  fecharModal('modal-sessao');renderSessoes();
 }
 
-function renderFinanceiro(){
-  sessoes=getData('ses');pacientes=getData('pac');
+async function renderFinanceiro(){
+  mostrarLoading('Carregando financeiro...');
+  sessoes=await apiGet('sessoes');
+  pacientes=await apiGet('pacientes');
+  esconderLoading();
   const lista=filtroFinStatus?sessoes.filter(s=>s.pgto===filtroFinStatus):sessoes;
   const pago=sessoes.filter(s=>s.pgto==='Pago').reduce((a,s)=>a+Number(s.valor||0),0);
   const pend=sessoes.filter(s=>s.pgto==='Pendente').reduce((a,s)=>a+Number(s.valor||0),0);
@@ -638,12 +697,19 @@ function renderFinanceiro(){
   }).join('');
 }
 function filtrarFinanceiro(v){filtroFinStatus=v;renderFinanceiro()}
-function alterarPgto(idx,val){sessoes[idx].pgto=val;setData('ses',sessoes);renderFinanceiro()}
+async function alterarPgto(idx,val){
+  sessoes[idx].pgto=val;
+  await apiUpdate('sessoes',sessoes[idx]);
+  renderFinanceiro();
+}
 
 // PRONTUÁRIO
-function renderProntuario(filtro=''){
-  pacientes=getData('pac');sessoes=getData('ses');
-  const pronts=JSON.parse(localStorage.getItem('prontuarios')||'[]');
+async function renderProntuario(filtro=''){
+  mostrarLoading('Carregando prontuários...');
+  pacientes=await apiGet('pacientes');
+  sessoes=await apiGet('sessoes');
+  const pronts=await apiGet('prontuarios');
+  esconderLoading();
   const tb=document.getElementById('pront-tbody');
   const lista=filtro?pacientes.filter(p=>p.nome.toLowerCase().includes(filtro.toLowerCase())):pacientes;
   if(!lista.length){tb.innerHTML='<tr><td colspan="5" class="empty">Nenhum paciente cadastrado</td></tr>';return;}
@@ -714,7 +780,7 @@ function abrirModalPront(){
   document.querySelector('input[name="humor"][value="😐 Neutro"]').checked=true;
   document.getElementById('modal-pront').classList.add('open');
 }
-function salvarPront(){
+async function salvarPront(){
   const data=document.getElementById('pr-data').value;
   if(!data){alert('Informe a data');return;}
   const p={id:Date.now(),pacId:prontPacId,data,
@@ -724,20 +790,24 @@ function salvarPront(){
     evolucao:document.getElementById('pr-evolucao').value,
     notas:document.getElementById('pr-notas').value,
     tarefas:document.getElementById('pr-tarefas').value};
-  const pronts=JSON.parse(localStorage.getItem('prontuarios')||'[]');
-  pronts.push(p);localStorage.setItem('prontuarios',JSON.stringify(pronts));
-  fecharModal('modal-pront');renderDetalhe();
+  mostrarLoading('Salvando anotação...');
+  await apiSave('prontuarios',p);
+  fecharModal('modal-pront');
+  renderDetalhe();
   mostrarToast('✅ Anotação salva!');
 }
-function excluirPront(id){
+async function excluirPront(id){
   if(!confirm('Excluir esta anotação?'))return;
-  const pronts=JSON.parse(localStorage.getItem('prontuarios')||'[]').filter(p=>p.id!=id);
-  localStorage.setItem('prontuarios',JSON.stringify(pronts));renderDetalhe();
+  await apiDelete('prontuarios',id);
+  renderDetalhe();
 }
 
 // AGENDAMENTOS
-function renderAgendamentos(){
-  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]').reverse();
+async function renderAgendamentos(){
+  mostrarLoading('Carregando agendamentos...');
+  const agsTodos=await apiGet('agendamentos');
+  const ags=[...agsTodos].reverse();
+  esconderLoading();
   const tb=document.getElementById('agendamentos-tbody');
   if(!ags.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhuma solicitação recebida</td></tr>';return;}
   tb.innerHTML=ags.map(a=>{
@@ -762,34 +832,40 @@ function renderAgendamentos(){
   }).join('');
   atualizarBadgeAgendamentos();
 }
-function confirmarAgendamento(id){
-  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
-  const idx=ags.findIndex(a=>a.id===id);
-  if(idx!==-1){ags[idx].status='Confirmado';ags[idx].lido=true;localStorage.setItem('agendamentos',JSON.stringify(ags));}
+async function confirmarAgendamento(id){
+  const ags=await apiGet('agendamentos');
+  const ag=ags.find(a=>String(a.id)===String(id));
+  if(ag){ag.status='Confirmado';ag.lido=true;await apiUpdate('agendamentos',ag);}
   mostrarToast('✅ Agendamento confirmado!');renderAgendamentos();
 }
-function cancelarAgendamento(id){
+async function cancelarAgendamento(id){
   if(!confirm('Cancelar?'))return;
-  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
-  const idx=ags.findIndex(a=>a.id===id);
-  if(idx!==-1){ags[idx].status='Cancelado';ags[idx].lido=true;localStorage.setItem('agendamentos',JSON.stringify(ags));}
+  const ags=await apiGet('agendamentos');
+  const ag=ags.find(a=>String(a.id)===String(id));
+  if(ag){ag.status='Cancelado';ag.lido=true;await apiUpdate('agendamentos',ag);}
   mostrarToast('❌ Cancelado.');renderAgendamentos();
 }
-function limparAgendamentos(){
+async function limparAgendamentos(){
   if(!confirm('Remover confirmados e cancelados?'))return;
-  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]').filter(a=>a.status==='Aguardando confirmação');
-  localStorage.setItem('agendamentos',JSON.stringify(ags));renderAgendamentos();
+  const ags=await apiGet('agendamentos');
+  for(const a of ags){
+    if(a.status!=='Aguardando confirmação')await apiDelete('agendamentos',a.id);
+  }
+  renderAgendamentos();
 }
-function atualizarBadgeAgendamentos(){
-  const ags=JSON.parse(localStorage.getItem('agendamentos')||'[]');
+async function atualizarBadgeAgendamentos(){
+  const ags=await apiGet('agendamentos');
   const n=ags.filter(a=>!a.lido).length;
   const b=document.getElementById('badge-agendamentos');
   if(b){if(n>0){b.textContent=n;b.style.display='inline';}else b.style.display='none';}
 }
 
 // CONTATOS
-function renderContatos(){
-  const contatos=JSON.parse(localStorage.getItem('contatos')||'[]').reverse();
+async function renderContatos(){
+  mostrarLoading('Carregando contatos...');
+  const todos=await apiGet('contatos');
+  const contatos=[...todos].reverse();
+  esconderLoading();
   const tb=document.getElementById('contatos-tbody');
   if(!contatos.length){tb.innerHTML='<tr><td colspan="7" class="empty">Nenhum contato recebido</td></tr>';return;}
   tb.innerHTML=contatos.map(c=>{
@@ -809,19 +885,20 @@ function renderContatos(){
   }).join('');
   atualizarBadgeContatos();
 }
-function marcarLido(id){
-  const c=JSON.parse(localStorage.getItem('contatos')||'[]');
-  const idx=c.findIndex(x=>x.id===id);
-  if(idx!==-1){c[idx].lido=true;localStorage.setItem('contatos',JSON.stringify(c));}
+async function marcarLido(id){
+  const todos=await apiGet('contatos');
+  const c=todos.find(x=>String(x.id)===String(id));
+  if(c){c.lido=true;await apiUpdate('contatos',c);}
   renderContatos();
 }
-function limparContatos(){
+async function limparContatos(){
   if(!confirm('Remover contatos já lidos?'))return;
-  const c=JSON.parse(localStorage.getItem('contatos')||'[]').filter(x=>!x.lido);
-  localStorage.setItem('contatos',JSON.stringify(c));renderContatos();
+  const todos=await apiGet('contatos');
+  for(const c of todos){if(c.lido)await apiDelete('contatos',c.id);}
+  renderContatos();
 }
-function atualizarBadgeContatos(){
-  const c=JSON.parse(localStorage.getItem('contatos')||'[]');
+async function atualizarBadgeContatos(){
+  const c=await apiGet('contatos');
   const n=c.filter(x=>!x.lido).length;
   const b=document.getElementById('badge-contatos');
   if(b){if(n>0){b.textContent=n;b.style.display='inline';}else b.style.display='none';}
