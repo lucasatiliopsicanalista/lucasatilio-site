@@ -1062,8 +1062,10 @@ async function renderDetalhe(){
   const allPronts=await apiGet('prontuarios');
   const pronts=allPronts.filter(p=>String(p.pacId)===String(prontPacId)).sort((a,b)=>String(b.data).localeCompare(String(a.data)));
   sessoes=await apiGet('sessoes');
-  const sp=sessoes.filter(s=>String(s.pacId)===String(prontPacId));
+  const sp=sessoes.filter(s=>String(s.pacId)===String(prontPacId)).sort((a,b)=>String(b.data).localeCompare(String(a.data)));
   const prog=pronts.filter(p=>p.evolucao&&(p.evolucao.includes('⬆️')||p.evolucao.includes('↗️'))).length;
+  const faltas=sp.filter(s=>s.falta==='true'||s.falta===true).length;
+  const totalPago=sp.filter(s=>s.pgto==='Pago').reduce((a,s)=>a+Number(s.valor||0),0);
   document.getElementById('pront-cards').innerHTML=`
     <div class="card-resumo"><div class="num">${sp.length}</div><div class="label">Total de sessões</div></div>
     <div class="card-resumo"><div class="num">${pronts.length}</div><div class="label">Anotações registradas</div></div>
