@@ -1068,8 +1068,9 @@ async function renderDetalhe(){
   const totalPago=sp.filter(s=>s.pgto==='Pago').reduce((a,s)=>a+Number(s.valor||0),0);
   document.getElementById('pront-cards').innerHTML=`
     <div class="card-resumo"><div class="num">${sp.length}</div><div class="label">Total de sessões</div></div>
-    <div class="card-resumo"><div class="num">${pronts.length}</div><div class="label">Anotações registradas</div></div>
-    <div class="card-resumo verde"><div class="num">${prog}</div><div class="label">Sessões com progresso</div></div>`;
+    <div class="card-resumo verde"><div class="num">R$ ${totalPago.toLocaleString('pt-BR')}</div><div class="label">Total pago</div></div>
+    <div class="card-resumo danger"><div class="num">${faltas}</div><div class="label">Faltas</div></div>
+    <div class="card-resumo"><div class="num">${pronts.length}</div><div class="label">Anotações</div></div>`;
   const tl=document.getElementById('pront-timeline');
   if(!pronts.length){tl.innerHTML='<div class="empty">Nenhuma anotação ainda. Clique em "+ Nova anotação".</div>';return;}
   tl.innerHTML=pronts.map((p,i)=>`
