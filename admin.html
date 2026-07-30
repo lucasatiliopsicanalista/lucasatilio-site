@@ -574,7 +574,7 @@ function mudarTab(id){
   if(id==='pacientes')renderPacientes();
   if(id==='sessoes')renderSessoes();
   if(id==='financeiro')renderFinanceiro();
-if(id==='artigos'){console.log('artigos tab clicked');renderArtigos();}  if(id==='prontuario')renderProntuario();
+if(id==='artigos')renderArtigos();  if(id==='prontuario')renderProntuario();
   if(id==='agendamentos')renderAgendamentos();
   if(id==='contatos')renderContatos();
 }
@@ -777,7 +777,7 @@ async function alterarPgto(idx,val){
 let editArtIdx=null;
 async function renderArtigos(){
   mostrarLoading('Carregando artigos...');
-  const artigos=await apiGet('artigos');
+  const artigos=await apiGet('artigos'); console.log('artigos:', artigos);
   esconderLoading();
   const tb=document.getElementById('artigos-tbody');
   if(!artigos.length){tb.innerHTML='<tr><td colspan="5" class="empty">Nenhum artigo cadastrado</td></tr>';return;}
