@@ -452,6 +452,42 @@ footer span{color:var(--verde-claro)}
 <script>
 const API_URL='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
 
+// BLOG
+const BLOG_API='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
+function carregarBlog(){
+  const grid=document.getElementById('blog-grid');
+  if(!grid)return;
+  const cb='blogCb_'+Date.now();
+  const script=document.createElement('script');
+  script.src=`${BLOG_API}?sheet=artigos&callback=${cb}`;
+  window[cb]=(data)=>{
+    delete window[cb];
+    document.body.removeChild(script);
+    const artigos=data.ok?data.data:[];
+    if(!artigos.length){
+      grid.innerHTML='<div class="blog-empty">Em breve novos artigos. <a href="https://substack.com/@lucasatilio" target="_blank" style="color:var(--verde)">Acompanhe no Substack!</a></div>';
+      return;
+    }
+    grid.innerHTML=artigos.slice(0,6).map(a=>`
+      <a href="${a.link}" target="_blank" class="blog-card fade-in">
+        ${a.imagem?`<img src="${a.imagem}" alt="${a.titulo}" class="blog-card-img"/>`:`<div class="blog-card-img-placeholder">✍️</div>`}
+        <div class="blog-card-body">
+          ${a.categoria?`<span class="blog-categoria">${a.categoria}</span>`:''}
+          <h3>${a.titulo}</h3>
+          <p>${a.resumo||''}</p>
+          <div class="blog-card-footer">
+            <span class="blog-data">${a.data?new Date(a.data).toLocaleDateString('pt-BR',{day:'numeric',month:'long',year:'numeric'}):''}</span>
+            <span class="blog-ler">Ler no Substack →</span>
+          </div>
+        </div>
+      </a>`).join('');
+    document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
+  };
+  script.onerror=()=>{grid.innerHTML='<div class="blog-empty">Em breve novos artigos!</div>';};
+  document.body.appendChild(script);
+}
+carregarBlog();
+
 async function enviarAgendamento(){
   const nome=document.getElementById('ag-nome').value.trim();
   const tel=document.getElementById('ag-tel').value.trim();
