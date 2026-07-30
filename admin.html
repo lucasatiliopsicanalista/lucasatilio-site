@@ -746,6 +746,58 @@ async function alterarPgto(idx,val){
   renderFinanceiro();
 }
 
+// ARTIGOS
+let editArtIdx=null;
+async function renderArtigos(){
+  mostrarLoading('Carregando artigos...');
+  const artigos=await apiGet('artigos');
+  esconderLoading();
+  const tb=document.getElementById('artigos-tbody');
+  if(!artigos.length){tb.innerHTML='<tr><td colspan="5" class="empty">Nenhum artigo cadastrado</td></tr>';return;}
+  tb.innerHTML=artigos.map((a,i)=>`<tr>
+    <td><strong>${a.titulo}</strong></td>
+    <td><span class="badge badge-online">${a.categoria||'—'}</span></td>
+    <td>${a.data?new Date(a.data).toLocaleDateString('pt-BR'):''}</td>
+    <td><a href="${a.link}" target="_blank" style="color:var(--verde);font-size:0.82rem">🔗 Abrir</a></td>
+    <td style="display:flex;gap:6px">
+      <button class="btn btn-sm btn-edit" onclick="editarArtigo(${i},'${a.id}')">Editar</button>
+      <button class="btn btn-sm btn-danger" onclick="excluirArtigo('${a.id}')">Excluir</button>
+    </td>
+  </tr>`).join('');
+}
+function abrirModalArtigo(){
+  document.getElementById('modal-art-titulo').textContent='Novo artigo';
+  document.getElementById('art-titulo').value='';
+  document.getElementById('art-link').value='';
+  document.getElementById('art-resumo').value='';
+  document.getElementById('art-categoria').value='';
+  document.getElementById('art-data').value=new Date().toISOString().split('T')[0];
+  document.getElementById('art-imagem').value='';
+  document.getElementById('modal-artigo').classList.add('open');
+}
+async function excluirArtigo(id){
+  if(!confirm('Excluir este artigo?'))return;
+  await apiDelete('artigos',id);
+  renderArtigos();
+}
+async function salvarArtigo(){
+  const titulo=document.getElementById('art-titulo').value.trim();
+  const link=document.getElementById('art-link').value.trim();
+  if(!titulo||!link){alert('Preencha título e link');return;}
+  const a={
+    id:Date.now(),titulo,link,
+    resumo:document.getElementById('art-resumo').value,
+    categoria:document.getElementById('art-categoria').value,
+    data:document.getElementById('art-data').value,
+    imagem:document.getElementById('art-imagem').value
+  };
+  mostrarLoading('Salvando artigo...');
+  await apiSave('artigos',a);
+  fecharModal('modal-artigo');
+  renderArtigos();
+  mostrarToast('✅ Artigo salvo!');
+}
+
 // PRONTUÁRIO
 async function renderProntuario(filtro=''){
   mostrarLoading('Carregando prontuários...');
