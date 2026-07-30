@@ -998,7 +998,7 @@ async function renderDetalhe(){
         <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:16px;flex-wrap:wrap;gap:10px">
           <div>
             <span class="badge badge-pago">✓ Contrato registrado</span>
-            <span style="font-size:0.8rem;color:var(--cinza);margin-left:8px">Criado em ${formatarData(contrato.dataCriacao)}</span>
+            <span style="font-size:0.8rem;color:var(--cinza);margin-left:8px">Criado em ${contrato.dataCriacao?new Date(contrato.dataCriacao).toLocaleDateString('pt-BR'):'—'}</span>
             ${contrato.aceito==='true'?`<span class="badge badge-pago" style="margin-left:8px">✓ Aceito pelo paciente</span>`:''}
           </div>
           <div style="display:flex;gap:8px;flex-wrap:wrap">
