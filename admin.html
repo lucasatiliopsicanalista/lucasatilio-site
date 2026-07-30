@@ -1014,8 +1014,130 @@ async function excluirPront(id){
   renderDetalhe();
 }
 
+// CONTRATOS
+let contratoAtual=null;
+function criarContrato(pacId){
+  contratoAtual=null;
+  const pac=pacientes.find(p=>String(p.id)===String(pacId));
+  document.getElementById('ct-pac-nome').textContent=pac?pac.nome:'';
+  document.getElementById('ct-pacId').value=pacId;
+  document.getElementById('ct-id').value='';
+  document.getElementById('ct-valor').value=pac?pac.valor||'':'';
+  document.getElementById('ct-frequencia').value='Semanal';
+  document.getElementById('ct-pagamento').value='PIX';
+  document.getElementById('ct-texto').value=gerarTextoContrato(pac,{valor:pac?pac.valor||'':'',frequencia:'Semanal',pagamento:'PIX'});
+  document.getElementById('modal-contrato').classList.add('open');
+}
+async function editarContrato(pacId,id){
+  const contratos=await apiGet('contratos');
+  const c=contratos.find(x=>String(x.id)===String(id));
+  if(!c)return;
+  contratoAtual=c;
+  const pac=pacientes.find(p=>String(p.id)===String(pacId));
+  document.getElementById('ct-pac-nome').textContent=pac?pac.nome:'';
+  document.getElementById('ct-pacId').value=pacId;
+  document.getElementById('ct-id').value=id;
+  document.getElementById('ct-valor').value=c.valor||'';
+  document.getElementById('ct-frequencia').value=c.frequencia||'Semanal';
+  document.getElementById('ct-pagamento').value=c.pagamento||'PIX';
+  document.getElementById('ct-texto').value=c.texto||'';
+  document.getElementById('modal-contrato').classList.add('open');
+}
+function gerarTextoContrato(pac,dados){
+  const hoje=new Date().toLocaleDateString('pt-BR');
+  return `CONTRATO DE PRESTAÇÃO DE SERVIÇOS PSICANALÍTICOS
+
+São Paulo, ${hoje}
+
+CONTRATANTE: ${pac?pac.nome:'[Nome do Paciente]'}
+CONTRATADO: Lucas de Paula Atilio - Psicanalista
+Endereço: Rua Alicante, 140 - Vila Granada, São Paulo - SP, 03654-010
+
+1. OBJETO
+O presente contrato tem por objeto a prestação de serviços de atendimento psicanalítico individual.
+
+2. MODALIDADE E FREQUÊNCIA
+As sessões serão realizadas na modalidade ${dados.modalidade||'a definir'}, com frequência ${dados.frequencia||'semanal'}, com duração de 50 (cinquenta) minutos cada.
+
+3. HONORÁRIOS
+O valor acordado é de R$ ${dados.valor||'___'} (${dados.valor?'a definir':'a definir'}) por sessão, a ser pago via ${dados.pagamento||'PIX'}.
+
+4. CANCELAMENTO
+O cancelamento ou reagendamento deve ser comunicado com no mínimo 12 (doze) horas de antecedência. O não cumprimento implicará na cobrança integral da sessão.
+
+5. SIGILO
+Todas as informações compartilhadas nas sessões são protegidas pelo sigilo profissional, conforme o Código de Ética dos profissionais de saúde.
+
+6. VIGÊNCIA
+Este contrato entra em vigor na data de sua assinatura e permanece válido enquanto durar o processo terapêutico.
+
+Ao confirmar o recebimento deste contrato via WhatsApp, o contratante declara ter lido, compreendido e concordado com todos os termos acima.
+
+Lucas de Paula Atilio
+Psicanalista`;
+}
+async function salvarContrato(){
+  const pacId=document.getElementById('ct-pacId').value;
+  const id=document.getElementById('ct-id').value;
+  const valor=document.getElementById('ct-valor').value;
+  const frequencia=document.getElementById('ct-frequencia').value;
+  const pagamento=document.getElementById('ct-pagamento').value;
+  const texto=document.getElementById('ct-texto').value;
+  const c={
+    id:id||Date.now(),pacId,valor,frequencia,pagamento,texto,
+    dataCriacao:id?contratoAtual?.dataCriacao:new Date().toISOString().split('T')[0],
+    aceito:'false'
+  };
+  mostrarLoading('Salvando contrato...');
+  if(id)await apiUpdate('contratos',c);
+  else await apiSave('contratos',c);
+  fecharModal('modal-contrato');
+  mostrarToast('✅ Contrato salvo!');
+  renderDetalhe();
+}
+async function excluirContrato(id){
+  if(!confirm('Excluir contrato?'))return;
+  await apiDelete('contratos',id);
+  mostrarToast('Contrato excluído.');
+  renderDetalhe();
+}
+async function enviarContrato(id){
+  const contratos=await apiGet('contratos');
+  const c=contratos.find(x=>String(x.id)===String(id));
+  if(!c)return;
+  const pac=pacientes.find(p=>String(p.id)===String(c.pacId));
+  const tel=pac?String(pac.tel).replace(/\D/g,''):'';
+  const msg=encodeURIComponent(
+    `Olá ${pac?pac.nome:''}! 😊\n\nSegue o contrato de prestação de serviços psicanalíticos para sua leitura:\n\n`+
+    c.texto+
+    `\n\n✅ Para confirmar seu aceite, responda esta mensagem com: *ACEITO*`
+  );
+  window.open(`https://wa.me/55${tel}?text=${msg}`,'_blank');
+  // Marcar como enviado
+  c.enviado='true';
+  await apiUpdate('contratos',c);
+}
+function verContrato(id){
+  apiGet('contratos').then(contratos=>{
+    const c=contratos.find(x=>String(x.id)===String(id));
+    if(!c)return;
+    const pac=pacientes.find(p=>String(p.id)===String(c.pacId));
+    const win=window.open('','_blank');
+    win.document.write(`<!DOCTYPE html><html><head><title>Contrato - ${pac?pac.nome:''}</title>
+    <style>body{font-family:Georgia,serif;max-width:700px;margin:40px auto;padding:20px;line-height:1.8;color:#1a3a4a}
+    h1{font-size:1.2rem;text-align:center;margin-bottom:30px}
+    pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:0.95rem}
+    .btn-print{display:block;margin:30px auto;padding:10px 30px;background:#3d7a6e;color:white;border:none;border-radius:20px;cursor:pointer;font-size:1rem}
+    </style></head><body>
+    <pre>${c.texto}</pre>
+    <button class="btn-print" onclick="window.print()">🖨️ Imprimir / Salvar PDF</button>
+    </body></html>`);
+    win.document.close();
+  });
+}
+
 // AGENDAMENTOS
-async function renderAgendamentos(){
+  async function renderAgendamentos(){
   mostrarLoading('Carregando agendamentos...');
   const agsTodos=await apiGet('agendamentos');
   const ags=[...agsTodos].reverse();
