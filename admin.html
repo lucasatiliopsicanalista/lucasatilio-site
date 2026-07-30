@@ -261,8 +261,36 @@ tr:hover td{background:#fafcfb}
   </div>
 </div>
 
+<!-- MODAL ARTIGO -->
+<div class="modal-bg" id="modal-artigo">
+  <div class="modal">
+    <h3 id="modal-art-titulo">Novo artigo</h3>
+    <div class="form-group"><label>Título *</label><input id="art-titulo" placeholder="Título do artigo"/></div>
+    <div class="form-group"><label>Link do Substack *</label><input id="art-link" placeholder="https://lucasatilio.substack.com/p/..."/></div>
+    <div class="form-group"><label>Resumo (aparece no site)</label><textarea id="art-resumo" rows="3" placeholder="Breve descrição do artigo..."></textarea></div>
+    <div class="form-row">
+      <div class="form-group"><label>Categoria</label>
+        <select id="art-categoria">
+          <option value="">Selecione...</option>
+          <option>Psicanálise</option>
+          <option>Saúde Mental</option>
+          <option>Autoconhecimento</option>
+          <option>Relacionamentos</option>
+          <option>Trabalho & Carreira</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Data de publicação</label><input id="art-data" type="date"/></div>
+    </div>
+    <div class="form-group"><label>URL da imagem de capa (opcional)</label><input id="art-imagem" placeholder="https://..."/></div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="fecharModal('modal-artigo')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarArtigo()">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL PRONTUÁRIO -->
-<div class="modal-bg" id="modal-pront">
+  <div class="modal-bg" id="modal-pront">
   <div class="modal" style="width:580px">
     <h3>Nova anotação de sessão</h3>
     <div class="form-row">
