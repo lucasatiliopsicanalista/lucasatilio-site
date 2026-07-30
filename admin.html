@@ -268,8 +268,45 @@ tr:hover td{background:#fafcfb}
   </div>
 </div>
 
+<!-- MODAL CONTRATO -->
+<div class="modal-bg" id="modal-contrato">
+  <div class="modal" style="width:620px">
+    <h3>Contrato — <span id="ct-pac-nome"></span></h3>
+    <input type="hidden" id="ct-pacId"/>
+    <input type="hidden" id="ct-id"/>
+    <div class="form-row">
+      <div class="form-group"><label>Valor por sessão (R$)</label>
+        <input id="ct-valor" type="number" placeholder="150"/>
+      </div>
+      <div class="form-group"><label>Frequência</label>
+        <select id="ct-frequencia">
+          <option>Semanal</option>
+          <option>Quinzenal</option>
+          <option>Mensal</option>
+          <option>A definir</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Forma de pagamento</label>
+      <select id="ct-pagamento">
+        <option>PIX</option>
+        <option>Transferência bancária</option>
+        <option>Dinheiro</option>
+        <option>Cartão</option>
+      </select>
+    </div>
+    <div class="form-group"><label>Texto do contrato (editável)</label>
+      <textarea id="ct-texto" rows="14" style="font-family:Georgia,serif;font-size:0.85rem;line-height:1.7"></textarea>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="fecharModal('modal-contrato')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarContrato()">Salvar contrato</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL ARTIGO -->
-<div class="modal-bg" id="modal-artigo">
+  <div class="modal-bg" id="modal-artigo">
   <div class="modal">
     <h3 id="modal-art-titulo">Novo artigo</h3>
     <div class="form-group"><label>Título *</label><input id="art-titulo" placeholder="Título do artigo"/></div>
