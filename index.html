@@ -438,7 +438,7 @@ async function enviarAgendamento(){
     lido:false,
     criado:new Date().toISOString()
   };
-  await fetch(API_URL,{method:'POST',body:JSON.stringify({sheet:'agendamentos',action:'save',row:ag})});
+  await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sheet:'agendamentos',action:'save',row:ag})});
   const [y,m,d]=data.split('-');
   const msg=encodeURIComponent(
     `Olá Lucas! Sou *${nome}* e fiz uma solicitação de agendamento pelo seu site.\n\n`+
