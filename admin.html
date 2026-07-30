@@ -947,7 +947,43 @@ async function renderDetalhe(){
         ${p.tarefas?`<div style="background:#f0f6f3;border-radius:8px;padding:10px 14px"><span style="font-size:0.75rem;font-weight:600;color:var(--verde);text-transform:uppercase">📌 Combinados</span><br><span style="font-size:0.85rem">${p.tarefas}</span></div>`:''}
       </div>
     </div>`).join('');
+
+  // Seção contrato
+  const contratos=await apiGet('contratos');
+  const contrato=contratos.find(c=>String(c.pacId)===String(prontPacId));
+  const pac=pacientes.find(p=>String(p.id)===String(prontPacId));
+  
+  tl.innerHTML+=`
+  <div style="margin-top:32px">
+    <h3 style="font-size:1rem;color:var(--azul);margin-bottom:16px">📄 Contrato de Serviços</h3>
+    <div style="background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:24px">
+      ${contrato?`
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <span class="badge badge-pago">✓ Contrato registrado</span>
+            <span style="font-size:0.8rem;color:var(--cinza);margin-left:8px">Criado em ${formatarData(contrato.dataCriacao)}</span>
+            ${contrato.aceito==='true'?`<span class="badge badge-pago" style="margin-left:8px">✓ Aceito pelo paciente</span>`:''}
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn btn-sm btn-edit" onclick="editarContrato('${prontPacId}','${contrato.id}')">Editar</button>
+            <button class="btn btn-sm" style="background:#e8f0ff;color:#1a73e8" onclick="verContrato('${contrato.id}')">Ver/PDF</button>
+            <button class="btn btn-sm btn-edit" onclick="enviarContrato('${contrato.id}')">WhatsApp</button>
+            <button class="btn btn-sm btn-danger" onclick="excluirContrato('${contrato.id}')">Excluir</button>
+          </div>
+        </div>
+        <div style="font-size:0.85rem;color:var(--cinza)">
+          💰 R$ ${contrato.valor}/sessão &nbsp;|&nbsp; 
+          📅 ${contrato.frequencia} &nbsp;|&nbsp; 
+          💳 ${contrato.pagamento}
+        </div>`:`
+        <div style="text-align:center;padding:20px">
+          <p style="color:var(--cinza);margin-bottom:16px">Nenhum contrato registrado para este paciente.</p>
+          <button class="btn btn-primary" onclick="criarContrato('${prontPacId}')">+ Criar contrato</button>
+        </div>`}
+    </div>
+  </div>`;
 }
+
 function abrirModalPront(){
   document.getElementById('pr-data').value=new Date().toISOString().split('T')[0];
   document.getElementById('pr-temas').value='';
