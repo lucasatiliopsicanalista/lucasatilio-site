@@ -1117,38 +1117,7 @@ Ao confirmar o recebimento deste contrato via WhatsApp, o contratante declara te
 Lucas de Paula Atilio
 Psicanalista`;
 }
-  const hoje=new Date().toLocaleDateString('pt-BR');
-  return `CONTRATO DE PRESTAÇÃO DE SERVIÇOS PSICANALÍTICOS
-
-São Paulo, ${hoje}
-
-CONTRATANTE: ${pac?pac.nome:'[Nome do Paciente]'}
-CONTRATADO: Lucas de Paula Atilio - Psicanalista
-Endereço: Rua Alicante, 140 - Vila Granada, São Paulo - SP, 03654-010
-
-1. OBJETO
-O presente contrato tem por objeto a prestação de serviços de atendimento psicanalítico individual.
-
-2. MODALIDADE E FREQUÊNCIA
-As sessões serão realizadas na modalidade ${dados.modalidade||'a definir'}, com frequência ${dados.frequencia||'semanal'}, com duração de 50 (cinquenta) minutos cada.
-
-3. HONORÁRIOS
-O valor acordado é de R$ ${dados.valor||'___'} (${dados.valor?'a definir':'a definir'}) por sessão, a ser pago via ${dados.pagamento||'PIX'}.
-
-4. CANCELAMENTO
-O cancelamento ou reagendamento deve ser comunicado com no mínimo 12 (doze) horas de antecedência. O não cumprimento implicará na cobrança integral da sessão.
-
-5. SIGILO
-Todas as informações compartilhadas nas sessões são protegidas pelo sigilo profissional, conforme o Código de Ética dos profissionais de saúde.
-
-6. VIGÊNCIA
-Este contrato entra em vigor na data de sua assinatura e permanece válido enquanto durar o processo terapêutico.
-
-Ao confirmar o recebimento deste contrato via WhatsApp, o contratante declara ter lido, compreendido e concordado com todos os termos acima.
-
-Lucas de Paula Atilio
-Psicanalista`;
-}
+ 
 async function salvarContrato(){
   const pacId=document.getElementById('ct-pacId').value;
   const id=document.getElementById('ct-id').value;
