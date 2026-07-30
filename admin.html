@@ -1221,10 +1221,26 @@ const[y,m,d]=dataStr.includes('-')?dataStr.split('-'):['','',''];    const d2=a.
 async function confirmarAgendamento(id){
   const ags=await apiGet('agendamentos');
   const ag=ags.find(a=>String(a.id)===String(id));
-  if(ag){ag.status='Confirmado';ag.lido=true;await apiUpdate('agendamentos',ag);}
-  mostrarToast('✅ Agendamento confirmado!');renderAgendamentos();
+  if(ag){
+    ag.status='Confirmado';ag.lido=true;
+    await apiUpdate('agendamentos',ag);
+    const[y,m,d]=String(ag.data).split('-');
+    const tel=String(ag.tel).replace(/\D/g,'');
+    const msg=encodeURIComponent(
+      `Olá ${ag.nome}! 😊\n\n`+
+      `✅ Seu agendamento foi *confirmado*!\n\n`+
+      `📋 Serviço: ${ag.servico}\n`+
+      `📅 Data: ${d}/${m}/${y}\n`+
+      `⏰ Horário: ${ag.hora}\n\n`+
+      `Qualquer dúvida é só me chamar. Até lá! 🌿\n\n`+
+      `— Lucas Atilio | Psicanalista`
+    );
+    window.open(`https://wa.me/55${tel}?text=${msg}`,'_blank');
+  }
+  mostrarToast('✅ Agendamento confirmado!');
+  renderAgendamentos();
 }
-async function cancelarAgendamento(id){
+  async function cancelarAgendamento(id){
   if(!confirm('Cancelar?'))return;
   const ags=await apiGet('agendamentos');
   const ag=ags.find(a=>String(a.id)===String(id));
