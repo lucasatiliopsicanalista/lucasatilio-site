@@ -1334,6 +1334,17 @@ function verContrato(id){
   });
 }
 
+async function toggleFalta(sessaoId, faltou){
+  sessoes=await apiGet('sessoes');
+  const s=sessoes.find(x=>String(x.id)===String(sessaoId));
+  if(s){
+    s.falta=String(faltou);
+    await apiUpdate('sessoes',s);
+    mostrarToast(faltou==='true'?'✗ Falta registrada':'✓ Presença registrada');
+    renderDetalhe();
+  }
+}
+
 // AGENDAMENTOS
   async function renderAgendamentos(){
   mostrarLoading('Carregando agendamentos...');
