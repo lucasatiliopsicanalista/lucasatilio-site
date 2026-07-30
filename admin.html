@@ -1072,8 +1072,44 @@ async function renderDetalhe(){
     <div class="card-resumo danger"><div class="num">${faltas}</div><div class="label">Faltas</div></div>
     <div class="card-resumo"><div class="num">${pronts.length}</div><div class="label">Anotações</div></div>`;
   const tl=document.getElementById('pront-timeline');
-  if(!pronts.length){tl.innerHTML='<div class="empty">Nenhuma anotação ainda. Clique em "+ Nova anotação".</div>';return;}
-  tl.innerHTML=pronts.map((p,i)=>`
+  
+  // Histórico de sessões
+  let histHtml=`<div style="background:var(--branco);border:1px solid var(--borda);border-radius:14px;padding:24px;margin-bottom:24px">
+    <h3 style="font-size:1rem;color:var(--azul);margin-bottom:16px">📋 Histórico de sessões</h3>
+    <table style="width:100%;border-collapse:collapse;font-size:0.85rem">
+      <thead><tr>
+        <th style="text-align:left;padding:8px;color:var(--cinza);font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid var(--borda)">Data</th>
+        <th style="text-align:left;padding:8px;color:var(--cinza);font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid var(--borda)">Modalidade</th>
+        <th style="text-align:left;padding:8px;color:var(--cinza);font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid var(--borda)">Valor</th>
+        <th style="text-align:left;padding:8px;color:var(--cinza);font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid var(--borda)">Pagamento</th>
+        <th style="text-align:left;padding:8px;color:var(--cinza);font-size:0.75rem;text-transform:uppercase;border-bottom:1px solid var(--borda)">Presença</th>
+      </tr></thead><tbody>`;
+  
+  if(!sp.length){
+    histHtml+=`<tr><td colspan="5" style="padding:20px;text-align:center;color:var(--cinza)">Nenhuma sessão registrada</td></tr>`;
+  } else {
+    sp.forEach(s=>{
+      const faltou=s.falta==='true'||s.falta===true;
+      histHtml+=`<tr style="background:${faltou?'#fdecea':''}">
+        <td style="padding:8px;border-bottom:1px solid var(--borda)">${formatarData(s.data)}</td>
+        <td style="padding:8px;border-bottom:1px solid var(--borda)"><span class="badge badge-${s.modalidade==='Online'?'online':'presencial'}">${s.modalidade||'—'}</span></td>
+        <td style="padding:8px;border-bottom:1px solid var(--borda)">R$ ${Number(s.valor||0).toLocaleString('pt-BR')}</td>
+        <td style="padding:8px;border-bottom:1px solid var(--borda)"><span class="badge badge-${s.pgto==='Pago'?'pago':s.pgto==='Atrasado'?'atrasado':'pendente'}">${s.pgto||'—'}</span></td>
+        <td style="padding:8px;border-bottom:1px solid var(--borda)">
+          <button class="btn btn-sm ${faltou?'btn-danger':'btn-edit'}" onclick="toggleFalta('${s.id}','${!faltou}')">
+            ${faltou?'✗ Faltou':'✓ Presente'}
+          </button>
+        </td>
+      </tr>`;
+    });
+  }
+  histHtml+=`</tbody></table></div>`;
+  
+  if(!pronts.length){
+    tl.innerHTML=histHtml+'<div class="empty">Nenhuma anotação ainda. Clique em "+ Nova anotação".</div>';
+    return;
+  }
+  tl.innerHTML=histHtml+`<h3 style="font-size:1rem;color:var(--azul);margin-bottom:16px">📝 Anotações clínicas</h3>`+pronts.map((p,i)=>`
     <div style="display:flex;gap:16px;margin-bottom:24px">
       <div style="display:flex;flex-direction:column;align-items:center">
         <div style="width:14px;height:14px;border-radius:50%;background:var(--verde);flex-shrink:0;margin-top:4px"></div>
