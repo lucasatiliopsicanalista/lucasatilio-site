@@ -1227,13 +1227,13 @@ async function confirmarAgendamento(id){
     const[y,m,d]=String(ag.data).split('-');
     const tel=String(ag.tel).replace(/\D/g,'');
     const msg=encodeURIComponent(
-      `Olá ${ag.nome}! 😊\n\n`+
-      `Que ótima notícia — sua sessão está confirmada! 🎉\n\n`+
-      `📅 *${ag.servico}*\n`+
-      `🗓️ ${d}/${m}/${y} às ${ag.hora}\n\n`+
+      `Olá ${ag.nome}!\n\n`+
+      `Sua sessão está confirmada!\n\n`+
+      `Serviço: ${ag.servico}\n`+
+      `Data: ${d}/${m}/${y} às ${ag.hora}\n\n`+
       `Fico feliz em te receber. Qualquer dúvida ou imprevisto, é só me chamar com pelo menos 12h de antecedência.\n\n`+
-      `Até lá! 🌿\n`+
-      `*Lucas Atilio | Psicanalista*`
+      `Até lá!\n`+
+      `Lucas Atilio | Psicanalista`
     );
     window.open(`https://wa.me/55${tel}?text=${msg}`,'_blank');
   }
