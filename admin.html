@@ -571,6 +571,7 @@ function mudarTab(id){
   const page=document.getElementById('tab-'+id);
   if(page)page.classList.add('active');
   if(id==='dashboard')renderDashboard();
+if(id==='lembretes')renderLembretes();
   if(id==='pacientes')renderPacientes();
   if(id==='sessoes')renderSessoes();
   if(id==='financeiro')renderFinanceiro();
