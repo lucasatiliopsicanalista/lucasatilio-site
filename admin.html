@@ -571,7 +571,7 @@ async function init(){
 function mudarTab(id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  const tabs=['dashboard','pacientes','sessoes','financeiro','artigos','prontuario','agendamentos','contatos'];
+const tabs=['dashboard','lembretes','pacientes','sessoes','financeiro','artigos','prontuario','agendamentos','contatos'];
   const idx=tabs.indexOf(id);
   const tabEls=document.querySelectorAll('.tab');
   if(tabEls[idx])tabEls[idx].classList.add('active');
