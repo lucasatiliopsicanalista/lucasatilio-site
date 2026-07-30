@@ -790,7 +790,8 @@ async function renderLembretes(){
   const amanha=new Date();
   amanha.setDate(amanha.getDate()+1);
   const amanhaStr=amanha.toISOString().split('T')[0];
-  const sessAmanha=sessoes.filter(s=>s.data===amanhaStr).sort((a,b)=>String(a.hora).localeCompare(String(b.hora)));
+  console.log('amanha:', amanhaStr, 'sessoes:', sessoes.map(s=>s.data));
+const sessAmanha=sessoes.filter(s=>s.data===amanhaStr).sort((a,b)=>String(a.hora).localeCompare(String(b.hora)));
   const container=document.getElementById('lembretes-container');
   if(!sessAmanha.length){
     container.innerHTML='<div class="empty">Nenhuma sessão agendada para amanhã 😊</div>';
