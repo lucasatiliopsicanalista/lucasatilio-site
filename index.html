@@ -474,10 +474,11 @@ async function enviarFormulario(){
     data: new Date().toISOString(),
     lido: false
   };
-  const contatos = JSON.parse(localStorage.getItem('contatos')||'[]');
-  contatos.push(contato);
-  localStorage.setItem('contatos', JSON.stringify(contatos));
-
+  await fetch('https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec',{
+    method:'POST',
+    headers:{'Content-Type':'text/plain'},
+    body:JSON.stringify({sheet:'contatos',action:'save',row:contato})
+  });
   // Montar mensagem WhatsApp
   const msg = encodeURIComponent(
     `Olá Lucas! Me chamo *${nome}* e preenchi o formulário do seu site.\n\n` +
