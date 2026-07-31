@@ -1216,7 +1216,8 @@ const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publica
 
 async function renderConteudo(){
   mostrarLoading('Carregando posts...');
-  const todosPosts=await apiGet('posts');
+const todosPosts=await apiGet('posts');
+  console.log('todosPosts:', todosPosts);
   esconderLoading();
   const colunas={Ideia:[],Rascunho:[],Agendado:[],Publicado:[]};
   todosPosts.forEach(p=>{if(colunas[p.status])colunas[p.status].push(p);});
