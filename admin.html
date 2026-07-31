@@ -1216,10 +1216,10 @@ const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publica
 
 async function renderConteudo(){
   console.log('renderConteudo chamado');
-  const posts=await apiGet('posts');
-console.log('posts:', posts);
-  mostrarLoading('Carregando posts...');
-  const posts=await apiGet('posts');
+const postsData=await apiGet('posts');
+console.log('posts:', postsData);
+  mostrarLoading('Carregando postsData...');
+  const postsData=await apiGet('postsData');
   esconderLoading();
   const colunas={Ideia:[],Rascunho:[],Agendado:[],Publicado:[]};
   posts.forEach(p=>{if(colunas[p.status])colunas[p.status].push(p);});
