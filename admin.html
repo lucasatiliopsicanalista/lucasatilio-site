@@ -1215,12 +1215,11 @@ const redeIcones={Instagram:'📸',LinkedIn:'💼',WhatsApp:'💬',Substack:'�
 const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publicado:'#eafaf1'};
 
 async function renderConteudo(){
-console.log('posts:', postsData);
-  mostrarLoading('Carregando postsData...');
-  const postsData=await apiGet('postsData');
+  mostrarLoading('Carregando posts...');
+  const todosPosts=await apiGet('posts');
   esconderLoading();
   const colunas={Ideia:[],Rascunho:[],Agendado:[],Publicado:[]};
-  posts.forEach(p=>{if(colunas[p.status])colunas[p.status].push(p);});
+  todosPosts.forEach(p=>{if(colunas[p.status])colunas[p.status].push(p);});
   Object.entries(colunas).forEach(([status,lista])=>{
     const col=document.getElementById('col-'+status.toLowerCase());
     if(!col)return;
