@@ -1215,8 +1215,6 @@ const redeIcones={Instagram:'📸',LinkedIn:'💼',WhatsApp:'💬',Substack:'�
 const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publicado:'#eafaf1'};
 
 async function renderConteudo(){
-  console.log('renderConteudo chamado');
-const postsData=await apiGet('posts');
 console.log('posts:', postsData);
   mostrarLoading('Carregando postsData...');
   const postsData=await apiGet('postsData');
