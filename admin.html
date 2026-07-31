@@ -1216,6 +1216,8 @@ const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publica
 
 async function renderConteudo(){
   console.log('renderConteudo chamado');
+  const posts=await apiGet('posts');
+console.log('posts:', posts);
   mostrarLoading('Carregando posts...');
   const posts=await apiGet('posts');
   esconderLoading();
