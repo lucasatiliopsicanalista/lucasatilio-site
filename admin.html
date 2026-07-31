@@ -658,6 +658,7 @@ if(id==='lembretes')renderLembretes();
   if(id==='relatorios')renderRelatorios();
 if(id==='artigos')renderArtigos();  if(id==='prontuario')renderProntuario();
   if(id==='agendamentos')renderAgendamentos();
+  if(id==='conteudo')renderConteudo();
   if(id==='contatos')renderContatos();
 }
 async function renderDashboard(){
@@ -1205,6 +1206,101 @@ async function excluirPront(id){
   await apiDelete('prontuarios',id);
   renderDetalhe();
 }
+
+// CONTEÚDO
+let editPostId=null;
+const redeIcones={Instagram:'📸',LinkedIn:'💼',WhatsApp:'💬',Substack:'📖'};
+const statusCores={Ideia:'#f0f4f3',Rascunho:'#fef9e7',Agendado:'#e8f0ff',Publicado:'#eafaf1'};
+
+async function renderConteudo(){
+  mostrarLoading('Carregando posts...');
+  const posts=await apiGet('posts');
+  esconderLoading();
+  const colunas={Ideia:[],Rascunho:[],Agendado:[],Publicado:[]};
+  posts.forEach(p=>{if(colunas[p.status])colunas[p.status].push(p);});
+  Object.entries(colunas).forEach(([status,lista])=>{
+    const col=document.getElementById('col-'+status.toLowerCase());
+    if(!col)return;
+    col.innerHTML=lista.length?lista.map(p=>`
+      <div style="background:var(--branco);border:1px solid var(--borda);border-radius:12px;padding:16px;margin-bottom:12px;cursor:pointer" onclick="editarPost('${p.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:8px">
+          <span style="font-size:1.1rem">${redeIcones[p.rede]||'📱'}</span>
+          <span style="background:rgba(45,106,127,0.1);color:var(--azul-m);padding:2px 8px;border-radius:10px;font-size:0.72rem">${p.tipo||''}</span>
+        </div>
+        <div style="font-weight:600;font-size:0.88rem;color:var(--azul);margin-bottom:6px">${p.titulo||'Sem título'}</div>
+        ${p.texto?`<div style="font-size:0.78rem;color:var(--cinza);line-height:1.5">${p.texto.substring(0,80)}${p.texto.length>80?'...':''}</div>`:''}
+        ${p.data?`<div style="font-size:0.75rem;color:var(--cinza);margin-top:8px">📅 ${formatarData(p.data)}</div>`:''}
+        ${p.status==='Publicado'&&p.curtidas?`<div style="font-size:0.75rem;color:var(--verde);margin-top:6px">❤️ ${p.curtidas} · 👁️ ${p.alcance||0} · 💬 ${p.comentarios||0}</div>`:''}
+      </div>`).join(''):'<div style="text-align:center;padding:20px;color:var(--cinza);font-size:0.82rem">Nenhum post</div>';
+  });
+}
+
+function abrirModalPost(){
+  editPostId=null;
+  document.getElementById('modal-post-titulo').textContent='Novo post';
+  document.getElementById('post-rede').value='Instagram';
+  document.getElementById('post-tipo').value='Dica';
+  document.getElementById('post-titulo').value='';
+  document.getElementById('post-texto').value='';
+  document.getElementById('post-data').value='';
+  document.getElementById('post-status').value='Ideia';
+  document.getElementById('post-imagem').value='';
+  document.getElementById('post-curtidas').value='';
+  document.getElementById('post-alcance').value='';
+  document.getElementById('post-comentarios').value='';
+  document.getElementById('post-compartilhamentos').value='';
+  document.getElementById('grupo-metricas').style.display='none';
+  document.getElementById('modal-post').classList.add('open');
+}
+
+async function editarPost(id){
+  const posts=await apiGet('posts');
+  const p=posts.find(x=>String(x.id)===String(id));
+  if(!p)return;
+  editPostId=id;
+  document.getElementById('modal-post-titulo').textContent='Editar post';
+  document.getElementById('post-rede').value=p.rede||'Instagram';
+  document.getElementById('post-tipo').value=p.tipo||'Dica';
+  document.getElementById('post-titulo').value=p.titulo||'';
+  document.getElementById('post-texto').value=p.texto||'';
+  document.getElementById('post-data').value=p.data||'';
+  document.getElementById('post-status').value=p.status||'Ideia';
+  document.getElementById('post-imagem').value=p.imagem||'';
+  document.getElementById('post-curtidas').value=p.curtidas||'';
+  document.getElementById('post-alcance').value=p.alcance||'';
+  document.getElementById('post-comentarios').value=p.comentarios||'';
+  document.getElementById('post-compartilhamentos').value=p.compartilhamentos||'';
+  document.getElementById('grupo-metricas').style.display=p.status==='Publicado'?'block':'none';
+  document.getElementById('modal-post').classList.add('open');
+}
+
+async function salvarPost(){
+  const status=document.getElementById('post-status').value;
+  const p={
+    id:editPostId||Date.now(),
+    rede:document.getElementById('post-rede').value,
+    tipo:document.getElementById('post-tipo').value,
+    titulo:document.getElementById('post-titulo').value,
+    texto:document.getElementById('post-texto').value,
+    data:document.getElementById('post-data').value,
+    status,
+    imagem:document.getElementById('post-imagem').value,
+    curtidas:document.getElementById('post-curtidas').value,
+    alcance:document.getElementById('post-alcance').value,
+    comentarios:document.getElementById('post-comentarios').value,
+    compartilhamentos:document.getElementById('post-compartilhamentos').value
+  };
+  mostrarLoading('Salvando post...');
+  if(editPostId)await apiUpdate('posts',p);
+  else await apiSave('posts',p);
+  fecharModal('modal-post');
+  renderConteudo();
+  mostrarToast('✅ Post salvo!');
+}
+
+document.getElementById('post-status')?.addEventListener('change',function(){
+  document.getElementById('grupo-metricas').style.display=this.value==='Publicado'?'block':'none';
+});
 
 // CONTRATOS
 let contratoAtual=null;
