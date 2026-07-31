@@ -297,7 +297,16 @@ tr:hover td{background:#fafcfb}
   </div>
 </div>
 
-<!-- MODAL CONTRATO -->
+<!-- CONTEÚDO -->
+<div class="content page" id="tab-conteudo">
+  <div class="sec-header">
+    <h2>📱 Gestão de Conteúdo</h2>
+    <button class="btn btn-primary" onclick="abrirModalPost()">+ Novo post</button>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;align-items:start" id="kanban-board">
+    <div>
+      <div style="background:#f0f4f3;border-radius:10px;padding:12px;margin-bottom:12px;font-weight:600;color:var(--azul);font-size:0.85rem">💡 Ideia</div>
+      <div id="col-ideia" class="kanban-col"></div>
 <div class="modal-bg" id="modal-contrato">
   <div class="modal" style="width:620px">
     <h3>Contrato — <span id="ct-pac-nome"></span></h3>
