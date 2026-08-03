@@ -323,8 +323,72 @@ tr:hover td{background:#fafcfb}
   </div>
 </div>
 
+<!-- MODAL POST -->
+<div class="modal-bg" id="modal-post">
+  <div class="modal" style="width:580px">
+    <h3 id="modal-post-titulo">Novo post</h3>
+    <div class="form-row">
+      <div class="form-group"><label>Rede social *</label>
+        <select id="post-rede">
+          <option value="Instagram">📸 Instagram</option>
+          <option value="LinkedIn">💼 LinkedIn</option>
+          <option value="WhatsApp">💬 WhatsApp</option>
+          <option value="Substack">📖 Substack</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Tipo de conteúdo</label>
+        <select id="post-tipo">
+          <option>Dica</option>
+          <option>Artigo</option>
+          <option>Reflexão</option>
+          <option>Depoimento</option>
+          <option>Promoção</option>
+          <option>Bastidores</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>Título</label>
+      <input id="post-titulo" placeholder="Título ou tema do post"/>
+    </div>
+    <div class="form-group"><label>Texto do post</label>
+      <textarea id="post-texto" rows="5" placeholder="Esboço do conteúdo..."></textarea>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label>Data de publicação</label>
+        <input id="post-data" type="date"/>
+      </div>
+      <div class="form-group"><label>Status</label>
+        <select id="post-status">
+          <option value="Ideia">💡 Ideia</option>
+          <option value="Rascunho">✏️ Rascunho</option>
+          <option value="Agendado">📅 Agendado</option>
+          <option value="Publicado">✅ Publicado</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label>URL da imagem (opcional)</label>
+      <input id="post-imagem" placeholder="https://..."/>
+    </div>
+    <div id="grupo-metricas" style="display:none">
+      <div style="font-size:0.82rem;font-weight:600;color:var(--cinza);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">📊 Métricas</div>
+      <div class="form-row">
+        <div class="form-group"><label>Curtidas</label><input id="post-curtidas" type="number" placeholder="0"/></div>
+        <div class="form-group"><label>Alcance</label><input id="post-alcance" type="number" placeholder="0"/></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label>Comentários</label><input id="post-comentarios" type="number" placeholder="0"/></div>
+        <div class="form-group"><label>Compartilhamentos</label><input id="post-compartilhamentos" type="number" placeholder="0"/></div>
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn btn-cancel" onclick="fecharModal('modal-post')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarPost()">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <!-- MODAL CONTRATO -->
-<div class="modal-bg" id="modal-contrato">
+  <div class="modal-bg" id="modal-contrato">
   <div class="modal" style="width:620px">
     <h3>Contrato — <span id="ct-pac-nome"></span></h3>
     <input type="hidden" id="ct-pacId"/>
