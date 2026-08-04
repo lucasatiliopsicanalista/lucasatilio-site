@@ -521,6 +521,124 @@ async function enviarAgendamento(){
   document.getElementById('ag-sucesso').style.display='block';
 }
 
+// SISTEMA DE IDIOMAS
+let idioma='pt';
+const traducoes={
+  pt:{
+    'hero-tag':'Psicanalista & Palestrante',
+    'hero-h1':'Cuidar de si é o maior ato de <span>transformação</span>',
+    'hero-p':'Atendimento online e presencial para quem busca autoconhecimento, equilíbrio e uma vida com mais sentido.',
+    'btn-contato':'✉️ Fazer primeiro contato',
+    'btn-ig':'Ver Instagram',
+    'sobre-label':'Sobre',
+    'sobre-title':'Quem é Lucas Atilio',
+    'sobre-p1':'Lucas Atilio é psicanalista e palestrante comprometido com um cuidado humano, acessível e transformador. Com uma escuta atenta e um olhar sensível, ele acompanha pessoas em diferentes momentos da vida — sejam desafios emocionais, relacionamentos, autoestima ou a busca por sentido.',
+    'sobre-p2':'Acredita que o autoconhecimento é o ponto de partida para qualquer mudança real. Por isso, oferece um espaço seguro, sem julgamentos, onde cada pessoa pode se ouvir de verdade.',
+    'sobre-p3':'Atende de forma <strong>online e presencial</strong>, tornando o cuidado com a saúde mental acessível para todos.',
+    'pilares-label':'Minha abordagem',
+    'pilares-title':'Os pilares do meu trabalho',
+    'pilar1-title':'Autoconhecimento',
+    'pilar1-p':'O caminho para uma vida mais plena começa quando nos permitimos olhar para dentro, com curiosidade e sem julgamento.',
+    'pilar2-title':'Cuidado',
+    'pilar2-p':'Um espaço de escuta genuína, onde sua história importa e cada detalhe é acolhido com respeito e presença.',
+    'pilar3-title':'Transformação',
+    'pilar3-p':'Mudanças reais acontecem quando há um processo consistente. A análise é a ferramenta para essa jornada de renovação.',
+    'servicos-label':'Como posso ajudar',
+    'servicos-title':'Serviços',
+    'serv1-title':'Atendimento Online',
+    'serv1-p':'Consultas por videochamada, com toda a privacidade e conforto da sua casa. Atendo pessoas de qualquer lugar do Brasil e do mundo.',
+    'serv2-title':'Atendimento Presencial',
+    'serv2-p':'Para quem prefere o encontro presencial. Um espaço acolhedor e seguro para que você possa se expressar livremente.',
+    'serv3-title':'Palestras',
+    'serv3-p':'Palestras sobre saúde mental, autoconhecimento e bem-estar para empresas, instituições e eventos.',
+    'serv4-title':'Atendimento para Todos',
+    'serv4-p':'Acredito que o cuidado com a saúde mental deve ser acessível. Atendo adultos de diferentes contextos e realidades.',
+    'blog-label':'Reflexões & Escritos',
+    'blog-title':'Blog',
+    'blog-p':'Textos sobre psicanálise, saúde mental e autoconhecimento.',
+    'blog-substack':'📖 Ver todos os artigos no Substack',
+    'ag-label':'Agende sua sessão',
+    'ag-title':'Agendamento online',
+    'ag-p':'Escolha o serviço, sugira um horário e entrarei em contato para confirmar.',
+    'contato-label':'Vamos conversar',
+    'contato-title':'Entre em contato',
+    'contato-p':'Dar o primeiro passo é o mais importante. Agende sua consulta ou tire suas dúvidas.',
+    'footer':'© 2025 <span>Lucas Atilio</span> — Psicanalista & Palestrante. Todos os direitos reservados.',
+    'nav-sobre':'Sobre',
+    'nav-servicos':'Serviços',
+    'nav-contato':'Contato',
+    'nav-agendar':'Agendar consulta',
+    'nav-blog':'Blog',
+    'nav-primeiro':'Primeiro contato',
+    'nav-agendar2':'Agendar',
+    'lang-btn':'🇺🇸 EN'
+  },
+  en:{
+    'hero-tag':'Psychoanalyst & Speaker',
+    'hero-h1':'Taking care of yourself is the greatest act of <span>transformation</span>',
+    'hero-p':'Online and in-person sessions for those seeking self-knowledge, balance, and a more meaningful life.',
+    'btn-contato':'✉️ Get in touch',
+    'btn-ig':'Follow on Instagram',
+    'sobre-label':'About',
+    'sobre-title':'Who is Lucas Atilio',
+    'sobre-p1':'Lucas Atilio is a psychoanalyst and speaker committed to a human, accessible, and transformative approach to care. With attentive listening and a sensitive perspective, he accompanies people through different moments in life — whether emotional challenges, relationships, self-esteem, or the search for meaning.',
+    'sobre-p2':'He believes that self-knowledge is the starting point for any real change. That is why he offers a safe, non-judgmental space where each person can truly listen to themselves.',
+    'sobre-p3':'Sessions available <strong>online and in-person</strong>, making mental health care accessible to everyone.',
+    'pilares-label':'My approach',
+    'pilares-title':'The pillars of my work',
+    'pilar1-title':'Self-knowledge',
+    'pilar1-p':'The path to a fuller life begins when we allow ourselves to look inward, with curiosity and without judgment.',
+    'pilar2-title':'Care',
+    'pilar2-p':'A space for genuine listening, where your story matters and every detail is welcomed with respect and presence.',
+    'pilar3-title':'Transformation',
+    'pilar3-p':'Real change happens when there is a consistent process. Psychoanalysis is the tool for this journey of renewal.',
+    'servicos-label':'How I can help',
+    'servicos-title':'Services',
+    'serv1-title':'Online Sessions',
+    'serv1-p':'Video call consultations with full privacy and comfort from your home. I work with people from anywhere in the world.',
+    'serv2-title':'In-person Sessions',
+    'serv2-p':'For those who prefer face-to-face meetings. A welcoming and safe space for you to express yourself freely.',
+    'serv3-title':'Lectures & Talks',
+    'serv3-p':'Talks on mental health, self-knowledge, and well-being for companies, institutions, and events.',
+    'serv4-title':'Accessible Care',
+    'serv4-p':'I believe mental health care should be accessible to everyone. I work with adults from different backgrounds and realities.',
+    'blog-label':'Reflections & Writing',
+    'blog-title':'Blog',
+    'blog-p':'Articles on psychoanalysis, mental health, and self-knowledge.',
+    'blog-substack':'📖 Read all articles on Substack',
+    'ag-label':'Schedule your session',
+    'ag-title':'Online scheduling',
+    'ag-p':'Choose the service, suggest a time, and I will get in touch to confirm.',
+    'contato-label':'Let\'s talk',
+    'contato-title':'Get in touch',
+    'contato-p':'Taking the first step is the most important thing. Schedule your consultation or ask your questions.',
+    'footer':'© 2025 <span>Lucas Atilio</span> — Psychoanalyst & Speaker. All rights reserved.',
+    'nav-sobre':'About',
+    'nav-servicos':'Services',
+    'nav-contato':'Contact',
+    'nav-agendar':'Schedule',
+    'nav-blog':'Blog',
+    'nav-primeiro':'First contact',
+    'nav-agendar2':'Schedule',
+    'lang-btn':'🇧🇷 PT'
+  }
+};
+
+function alternarIdioma(){
+  idioma=idioma==='pt'?'en':'pt';
+  aplicarIdioma();
+}
+
+function aplicarIdioma(){
+  const t=traducoes[idioma];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(t[key]!==undefined) el.innerHTML=t[key];
+  });
+  document.getElementById('lang-btn').textContent=t['lang-btn'];
+  document.documentElement.lang=idioma;
+}
+
 async function enviarFormulario(){
   const nome = document.getElementById('f-nome').value.trim();
   const tel = document.getElementById('f-tel').value.trim();
