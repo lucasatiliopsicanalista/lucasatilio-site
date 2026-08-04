@@ -14,15 +14,15 @@
 }
 html{scroll-behavior:smooth}
 body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--texto);line-height:1.6}
-
 nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-filter:blur(10px);z-index:100;padding:18px 5%;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(45,106,127,0.1)}
 .logo{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--azul);letter-spacing:0.5px}
-.nav-links{display:flex;gap:30px;list-style:none}
+.nav-links{display:flex;gap:24px;list-style:none;align-items:center}
 .nav-links a{text-decoration:none;color:var(--cinza);font-size:0.85rem;font-weight:500;letter-spacing:0.3px;transition:color 0.3s}
 .nav-links a:hover{color:var(--azul-medio)}
 .nav-cta{background:var(--verde);color:white!important;padding:8px 20px;border-radius:50px;transition:background 0.3s!important}
 .nav-cta:hover{background:var(--verde-claro)!important}
-
+.lang-btn{background:transparent;border:1.5px solid var(--azul-claro);color:var(--azul);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:0.78rem;font-weight:500;transition:all .2s}
+.lang-btn:hover{background:var(--azul);color:white}
 .hero{min-height:100vh;display:flex;align-items:center;padding:100px 5% 60px;background:linear-gradient(135deg,#e8f0ed 0%,#dce8f0 50%,#e4edf0 100%);position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(90,171,153,0.15),transparent 70%)}
 .hero::after{content:'';position:absolute;bottom:-80px;left:-80px;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(74,154,181,0.12),transparent 70%)}
@@ -39,9 +39,6 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .hero-img{flex:1;display:flex;justify-content:center;align-items:center;z-index:1}
 .logo-wrapper{width:320px;height:320px;border-radius:50%;overflow:hidden;box-shadow:0 20px 60px rgba(26,58,74,0.2);flex-shrink:0;background:#3a7a9a;display:flex;align-items:center;justify-content:center}
 .logo-wrapper img{width:100%;height:100%;object-fit:cover;object-position:center center}
-.foto-placeholder{width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--azul-medio));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:600;color:white;box-shadow:0 20px 60px rgba(26,58,74,0.25);flex-shrink:0;letter-spacing:2px}
-.sobre-visual{display:flex;flex-direction:column;align-items:center;gap:28px}
-
 .sobre{padding:90px 5%;background:var(--branco)}
 .section-label{font-size:0.75rem;letter-spacing:2px;text-transform:uppercase;color:var(--verde);font-weight:500;margin-bottom:12px}
 .section-title{font-family:'Cormorant Garamond',serif;font-size:clamp(2rem,3.5vw,2.8rem);font-weight:400;color:var(--azul);margin-bottom:24px;line-height:1.2}
@@ -49,7 +46,8 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .sobre-texto p{color:var(--cinza);font-size:1rem;font-weight:300;margin-bottom:16px;line-height:1.8}
 .sobre-destaque{background:linear-gradient(135deg,#e8f4f0,#ddeaf5);border-radius:20px;padding:40px;border-left:4px solid var(--verde)}
 .sobre-destaque blockquote{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-style:italic;color:var(--azul);line-height:1.5}
-
+.foto-placeholder{width:220px;height:220px;border-radius:50%;background:linear-gradient(135deg,var(--azul),var(--azul-medio));display:flex;align-items:center;justify-content:center;font-family:'Cormorant Garamond',serif;font-size:4rem;font-weight:600;color:white;box-shadow:0 20px 60px rgba(26,58,74,0.25);flex-shrink:0;letter-spacing:2px}
+.sobre-visual{display:flex;flex-direction:column;align-items:center;gap:28px}
 .pilares{padding:80px 5%;background:var(--azul);color:white}
 .pilares .section-label{color:var(--verde-claro)}
 .pilares .section-title{color:white}
@@ -59,7 +57,6 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .pilar-icon{font-size:2.4rem;margin-bottom:16px}
 .pilar-card h3{font-family:'Cormorant Garamond',serif;font-size:1.5rem;margin-bottom:12px;color:white}
 .pilar-card p{color:rgba(255,255,255,0.65);font-size:0.9rem;font-weight:300;line-height:1.7}
-
 .servicos{padding:90px 5%;background:var(--bg)}
 .servicos-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px;margin-top:48px}
 .servico-card{background:var(--branco);border-radius:16px;padding:40px;border:1px solid rgba(45,106,127,0.1);transition:all 0.3s}
@@ -67,7 +64,6 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .servico-icon{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,var(--azul-claro),var(--verde));display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-bottom:20px}
 .servico-card h3{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--azul);margin-bottom:10px}
 .servico-card p{color:var(--cinza);font-size:0.9rem;font-weight:300;line-height:1.7}
-
 /* BLOG */
 .blog{padding:90px 5%;background:var(--bg)}
 .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;margin-top:48px}
@@ -76,6 +72,8 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .blog-card-img{width:100%;height:200px;object-fit:cover}
 .blog-card-img-placeholder{width:100%;height:200px;background:linear-gradient(135deg,var(--azul),var(--azul-medio));display:flex;align-items:center;justify-content:center;font-size:3rem}
 .blog-card-body{padding:24px}
+.blog-categoria{display:inline-block;background:rgba(45,106,127,0.1);color:var(--azul-medio);padding:4px 12px;border-radius:20px;font-size:0.72rem;letter-spacing:0.5px;text-transform:uppercase;font-weight:500;margin-bottom:12px}
+.blog-card-body h3{font-family:'Cormorant Garamond',serif;font-size:1.25rem;color:var(--azul);margin-bottom:10px;line-height:1.3}
 .blog-card-body p{color:var(--cinza);font-size:0.88rem;font-weight:300;line-height:1.6;margin-bottom:16px}
 .blog-card-footer{display:flex;justify-content:space-between;align-items:center}
 .blog-data{font-size:0.78rem;color:var(--cinza)}
@@ -85,6 +83,7 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .btn-substack{display:inline-flex;align-items:center;gap:10px;background:var(--azul);color:white;padding:14px 28px;border-radius:50px;text-decoration:none;font-size:0.9rem;font-weight:500;transition:all 0.3s}
 .btn-substack:hover{background:var(--azul-medio);transform:translateY(-2px)}
 @media(max-width:768px){.blog-grid{grid-template-columns:1fr}}
+/* FORMULÁRIO */
 .formulario{padding:90px 5%;background:var(--branco)}
 .formulario .section-label{text-align:center}
 .formulario .section-title{text-align:center}
@@ -102,15 +101,12 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .urgencia-opt:checked+.urgencia-label{border-color:var(--verde);background:#e8f4f0;color:var(--verde);font-weight:500}
 .btn-enviar{width:100%;padding:15px;background:var(--verde);color:white;border:none;border-radius:50px;font-size:1rem;font-weight:600;cursor:pointer;transition:all .3s;margin-top:8px;font-family:'Inter',sans-serif}
 .btn-enviar:hover{background:var(--verde-claro);transform:translateY(-2px);box-shadow:0 6px 20px rgba(61,122,110,0.3)}
-
-/* SUCESSO */
 .sucesso{display:none;text-align:center;padding:20px 0}
 .sucesso-icon{font-size:4rem;margin-bottom:16px}
 .sucesso h3{font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--azul);margin-bottom:12px}
 .sucesso p{color:var(--cinza);font-size:0.95rem;margin-bottom:28px;font-weight:300}
 .btn-wpp-sucesso{display:inline-flex;align-items:center;gap:10px;background:var(--verde);color:white;padding:14px 32px;border-radius:50px;text-decoration:none;font-size:0.95rem;font-weight:500;transition:all .3s;box-shadow:0 4px 20px rgba(61,122,110,0.3)}
 .btn-wpp-sucesso:hover{background:var(--verde-claro);transform:translateY(-2px)}
-
 .contato{padding:90px 5%;background:linear-gradient(135deg,#dce8f0,#e0eeea);text-align:center}
 .contato .section-title{margin-bottom:12px}
 .contato>p{color:var(--cinza);font-size:1rem;max-width:480px;margin:0 auto 44px;font-weight:300}
@@ -121,10 +117,8 @@ nav{position:fixed;top:0;width:100%;background:rgba(247,249,248,0.95);backdrop-f
 .btn-contato.ig{background:var(--azul);color:white}
 .btn-contato.ig:hover{background:var(--azul-medio);transform:translateY(-2px)}
 .info-extra{margin-top:40px;color:var(--cinza);font-size:0.85rem}
-
 footer{background:var(--azul);color:rgba(255,255,255,0.5);text-align:center;padding:28px 5%;font-size:0.82rem}
 footer span{color:var(--verde-claro)}
-
 @media(max-width:768px){
   .hero{flex-direction:column;text-align:center;padding-top:120px}
   .hero-btns{justify-content:center}
@@ -143,15 +137,18 @@ footer span{color:var(--verde-claro)}
 <body>
 
 <nav>
-  <div class="logo">Lucas Atilio</div>
-  <button id="lang-btn" onclick="alternarIdioma()" style="background:transparent;border:1.5px solid var(--azul-claro);color:var(--azul);padding:5px 12px;border-radius:20px;cursor:pointer;font-size:0.78rem;font-weight:500;margin-left:8px">🇺🇸 EN</button>
+  <div style="display:flex;align-items:center;gap:10px">
+    <div class="logo">Lucas Atilio</div>
+    <button class="lang-btn" id="lang-btn" onclick="alternarIdioma()">🇺🇸 EN</button>
+  </div>
   <ul class="nav-links">
-    <li><a href="#sobre">Sobre</a></li>
-    <li><a href="#servicos">Serviços</a></li>
-    <li><a href="#formulario">Primeiro contato</a></li>
-    <li><a href="#agendamento">Agendar</a></li>
-    <li><a href="#contato">Contato</a></li>
-    <li><a href="https://wa.link/1qqujp" target="_blank" class="nav-cta">Agendar consulta</a></li>
+    <li><a href="#sobre" data-i18n="nav-sobre">Sobre</a></li>
+    <li><a href="#servicos" data-i18n="nav-servicos">Serviços</a></li>
+    <li><a href="#blog" data-i18n="nav-blog">Blog</a></li>
+    <li><a href="#formulario" data-i18n="nav-primeiro">Primeiro contato</a></li>
+    <li><a href="#agendamento" data-i18n="nav-agendar2">Agendar</a></li>
+    <li><a href="#contato" data-i18n="nav-contato">Contato</a></li>
+    <li><a href="https://wa.link/1qqujp" target="_blank" class="nav-cta" data-i18n="nav-agendar">Agendar consulta</a></li>
   </ul>
 </nav>
 
@@ -161,16 +158,16 @@ footer span{color:var(--verde-claro)}
     <h1 data-i18n="hero-h1">Cuidar de si é o maior ato de <span>transformação</span></h1>
     <p data-i18n="hero-p">Atendimento online e presencial para quem busca autoconhecimento, equilíbrio e uma vida com mais sentido.</p>
     <div class="hero-btns">
-      <a href="#formulario" class="btn-wpp"><span data-i18n="btn-contato">✉️ Fazer primeiro contato</span></a>
+      <a href="#formulario" class="btn-wpp" data-i18n="btn-contato">✉️ Fazer primeiro contato</a>
       <a href="https://www.instagram.com/psicanalista_lucas_atilio/" target="_blank" class="btn-ig">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-        Ver Instagram
+        <span data-i18n="btn-ig">Ver Instagram</span>
       </a>
     </div>
   </div>
   <div class="hero-img fade-in">
     <div class="logo-wrapper">
-      <img src="https://i.postimg.cc/3JFf5jmx/logo-cleanup.png" alt="Logo Lucas Atilio Psicanalista"/>
+      <img src="https://i.postimg.cc/ydK1cZNS/Gemini-Generated-Image-gss8digss8digss8.png" alt="Lucas Atilio"/>
     </div>
   </div>
 </section>
@@ -179,15 +176,16 @@ footer span{color:var(--verde-claro)}
   <div class="sobre-grid">
     <div class="sobre-texto fade-in">
       <div class="section-label" data-i18n="sobre-label">Sobre</div>
-      <h2 class="section-title">Quem é Lucas Atilio</h2>
-      <p>Lucas Atilio é psicanalista e palestrante comprometido com um cuidado humano, acessível e transformador. Com uma escuta atenta e um olhar sensível, ele acompanha pessoas em diferentes momentos da vida — sejam desafios emocionais, relacionamentos, autoestima ou a busca por sentido.</p>
-      <p>Acredita que o autoconhecimento é o ponto de partida para qualquer mudança real. Por isso, oferece um espaço seguro, sem julgamentos, onde cada pessoa pode se ouvir de verdade.</p>
-      <p>Atende de forma <strong>online e presencial</strong>, tornando o cuidado com a saúde mental acessível para todos.</p>
+      <h2 class="section-title" data-i18n="sobre-title">Quem é Lucas Atilio</h2>
+      <p data-i18n="sobre-p1">Lucas Atilio é psicanalista e palestrante comprometido com um cuidado humano, acessível e transformador. Com uma escuta atenta e um olhar sensível, ele acompanha pessoas em diferentes momentos da vida — sejam desafios emocionais, relacionamentos, autoestima ou a busca por sentido.</p>
+      <p data-i18n="sobre-p2">Acredita que o autoconhecimento é o ponto de partida para qualquer mudança real. Por isso, oferece um espaço seguro, sem julgamentos, onde cada pessoa pode se ouvir de verdade.</p>
+      <p data-i18n="sobre-p3">Atende de forma <strong>online e presencial</strong>, tornando o cuidado com a saúde mental acessível para todos.</p>
     </div>
     <div class="fade-in">
       <div class="sobre-visual">
-<img src="https://i.postimg.cc/ydK1cZNS/Gemini-Generated-Image-gss8digss8digss8.png" alt="Lucas Atilio" style="width:220px;height:220px;border-radius:50%;object-fit:cover;box-shadow:0 20px 60px rgba(26,58,74,0.25);flex-shrink:0"/>        <div class="sobre-destaque" style="width:100%">
-          <blockquote>"Autoconhecimento, cuidado e transformação — esses são os pilares de um processo analítico que respeita quem você é e quem você pode vir a ser."</blockquote>
+        <img src="https://i.postimg.cc/ydK1cZNS/Gemini-Generated-Image-gss8digss8digss8.png" alt="Lucas Atilio" style="width:220px;height:220px;border-radius:50%;object-fit:cover;box-shadow:0 20px 60px rgba(26,58,74,0.25);flex-shrink:0"/>
+        <div class="sobre-destaque" style="width:100%">
+          <blockquote data-i18n="sobre-quote">"Autoconhecimento, cuidado e transformação — esses são os pilares de um processo analítico que respeita quem você é e quem você pode vir a ser."</blockquote>
         </div>
       </div>
     </div>
@@ -196,144 +194,53 @@ footer span{color:var(--verde-claro)}
 
 <section class="pilares" id="pilares">
   <div style="text-align:center">
-    <div class="section-label">Minha abordagem</div>
-    <h2 class="section-title">Os pilares do meu trabalho</h2>
+    <div class="section-label" data-i18n="pilares-label">Minha abordagem</div>
+    <h2 class="section-title" data-i18n="pilares-title">Os pilares do meu trabalho</h2>
   </div>
   <div class="pilares-grid">
     <div class="pilar-card fade-in">
       <div class="pilar-icon">🔍</div>
-      <h3>Autoconhecimento</h3>
-      <p>O caminho para uma vida mais plena começa quando nos permitimos olhar para dentro, com curiosidade e sem julgamento.</p>
+      <h3 data-i18n="pilar1-title">Autoconhecimento</h3>
+      <p data-i18n="pilar1-p">O caminho para uma vida mais plena começa quando nos permitimos olhar para dentro, com curiosidade e sem julgamento.</p>
     </div>
     <div class="pilar-card fade-in">
       <div class="pilar-icon">🤝</div>
-      <h3>Cuidado</h3>
-      <p>Um espaço de escuta genuína, onde sua história importa e cada detalhe é acolhido com respeito e presença.</p>
+      <h3 data-i18n="pilar2-title">Cuidado</h3>
+      <p data-i18n="pilar2-p">Um espaço de escuta genuína, onde sua história importa e cada detalhe é acolhido com respeito e presença.</p>
     </div>
     <div class="pilar-card fade-in">
       <div class="pilar-icon">🌱</div>
-      <h3>Transformação</h3>
-      <p>Mudanças reais acontecem quando há um processo consistente. A análise é a ferramenta para essa jornada de renovação.</p>
+      <h3 data-i18n="pilar3-title">Transformação</h3>
+      <p data-i18n="pilar3-p">Mudanças reais acontecem quando há um processo consistente. A análise é a ferramenta para essa jornada de renovação.</p>
     </div>
   </div>
 </section>
 
 <section class="servicos" id="servicos">
   <div style="text-align:center">
-    <div class="section-label">Como posso ajudar</div>
-    <h2 class="section-title">Serviços</h2>
+    <div class="section-label" data-i18n="servicos-label">Como posso ajudar</div>
+    <h2 class="section-title" data-i18n="servicos-title">Serviços</h2>
   </div>
   <div class="servicos-grid">
     <div class="servico-card fade-in">
       <div class="servico-icon">💻</div>
-      <h3>Atendimento Online</h3>
-      <p>Consultas por videochamada, com toda a privacidade e conforto da sua casa. Atendo pessoas de qualquer lugar do Brasil e do mundo.</p>
+      <h3 data-i18n="serv1-title">Atendimento Online</h3>
+      <p data-i18n="serv1-p">Consultas por videochamada, com toda a privacidade e conforto da sua casa. Atendo pessoas de qualquer lugar do Brasil e do mundo.</p>
     </div>
     <div class="servico-card fade-in">
       <div class="servico-icon">🏙️</div>
-      <h3>Atendimento Presencial</h3>
-      <p>Para quem prefere o encontro presencial. Um espaço acolhedor e seguro para que você possa se expressar livremente.</p>
+      <h3 data-i18n="serv2-title">Atendimento Presencial</h3>
+      <p data-i18n="serv2-p">Para quem prefere o encontro presencial. Um espaço acolhedor e seguro para que você possa se expressar livremente.</p>
     </div>
     <div class="servico-card fade-in">
       <div class="servico-icon">🎤</div>
-      <h3>Palestras</h3>
-      <p>Palestras sobre saúde mental, autoconhecimento e bem-estar para empresas, instituições e eventos.</p>
+      <h3 data-i18n="serv3-title">Palestras</h3>
+      <p data-i18n="serv3-p">Palestras sobre saúde mental, autoconhecimento e bem-estar para empresas, instituições e eventos.</p>
     </div>
     <div class="servico-card fade-in">
       <div class="servico-icon">♾️</div>
-      <h3>Atendimento para Todos</h3>
-      <p>Acredito que o cuidado com a saúde mental deve ser acessível. Atendo adultos de diferentes contextos e realidades.</p>
-    </div>
-  </div>
-</section>
-
-<!-- FORMULÁRIO DE PRIMEIRO CONTATO -->
-<section class="formulario" id="formulario">
-  <div class="section-label">Vamos nos conhecer</div>
-  <h2 class="section-title">Primeiro contato</h2>
-  <p class="subtitulo">Preencha o formulário abaixo e entrarei em contato para conversarmos sobre como posso te ajudar.</p>
-
-  <div class="form-container fade-in">
-    <div id="form-conteudo">
-      <div class="form-row">
-        <div class="form-group">
-          <label>Nome completo *</label>
-          <input id="f-nome" type="text" placeholder="Seu nome"/>
-        </div>
-        <div class="form-group">
-          <label>Telefone / WhatsApp *</label>
-          <input id="f-tel" type="tel" placeholder="(11) 99999-9999"/>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input id="f-email" type="email" placeholder="seu@email.com"/>
-      </div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Modalidade preferida *</label>
-          <select id="f-modalidade">
-            <option value="">Selecione...</option>
-            <option>Online</option>
-            <option>Presencial</option>
-            <option>Sem preferência</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Preferência de horário</label>
-          <select id="f-horario">
-            <option value="">Selecione...</option>
-            <option>Manhã (8h–12h)</option>
-            <option>Tarde (12h–18h)</option>
-            <option>Noite (18h–21h)</option>
-            <option>Qualquer horário</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Como soube de mim?</label>
-        <select id="f-origem">
-          <option value="">Selecione...</option>
-          <option>Instagram</option>
-          <option>Indicação de amigo/familiar</option>
-          <option>Google</option>
-          <option>LinkedIn</option>
-          <option>Palestra</option>
-          <option>Outro</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Motivo do contato *</label>
-        <textarea id="f-motivo" placeholder="Conte um pouco sobre o que te trouxe até aqui. Não precisa ser detalhado — qualquer palavra já ajuda."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Urgência</label>
-        <div class="urgencia-grid">
-          <div>
-            <input type="radio" name="urgencia" id="urg1" class="urgencia-opt" value="Sem pressa"/>
-            <label for="urg1" class="urgencia-label">🌿 Sem pressa</label>
-          </div>
-          <div>
-            <input type="radio" name="urgencia" id="urg2" class="urgencia-opt" value="Médio prazo" checked/>
-            <label for="urg2" class="urgencia-label">🕐 Médio prazo</label>
-          </div>
-          <div>
-            <input type="radio" name="urgencia" id="urg3" class="urgencia-opt" value="Urgente"/>
-            <label for="urg3" class="urgencia-label">⚡ Urgente</label>
-          </div>
-        </div>
-      </div>
-      <button class="btn-enviar" onclick="enviarFormulario()">Enviar mensagem</button>
-    </div>
-
-    <div class="sucesso" id="sucesso">
-      <div class="sucesso-icon">💚</div>
-      <h3>Mensagem recebida!</h3>
-      <p>Obrigado por entrar em contato. Entrarei em breve para conversarmos com mais calma sobre como posso te ajudar.</p>
-      <a id="wpp-link" href="https://wa.link/1qqujp" target="_blank" class="btn-wpp-sucesso">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-        Falar pelo WhatsApp agora
-      </a>
+      <h3 data-i18n="serv4-title">Atendimento para Todos</h3>
+      <p data-i18n="serv4-p">Acredito que o cuidado com a saúde mental deve ser acessível. Atendo adultos de diferentes contextos e realidades.</p>
     </div>
   </div>
 </section>
@@ -341,44 +248,33 @@ footer span{color:var(--verde-claro)}
 <!-- BLOG -->
 <section class="blog" id="blog">
   <div style="text-align:center">
-    <div class="section-label">Reflexões & Escritos</div>
-    <h2 class="section-title">Blog</h2>
-    <p style="color:var(--cinza);font-size:1rem;max-width:520px;margin:0 auto;font-weight:300">Textos sobre psicanálise, saúde mental e autoconhecimento.</p>
+    <div class="section-label" data-i18n="blog-label">Reflexões & Escritos</div>
+    <h2 class="section-title" data-i18n="blog-title">Blog</h2>
+    <p style="color:var(--cinza);font-size:1rem;max-width:520px;margin:0 auto;font-weight:300" data-i18n="blog-p">Textos sobre psicanálise, saúde mental e autoconhecimento.</p>
   </div>
   <div class="blog-grid" id="blog-grid">
     <div class="blog-empty">Carregando artigos...</div>
   </div>
   <div class="blog-substack">
-    <a href="https://substack.com/@lucasatilio" target="_blank" class="btn-substack">
+    <a href="https://substack.com/@lucasatilio" target="_blank" class="btn-substack" data-i18n="blog-substack">
       📖 Ver todos os artigos no Substack
     </a>
   </div>
 </section>
 
 <!-- AGENDAMENTO ONLINE -->
-  <section class="formulario" id="agendamento" style="background:var(--bg)">
-  <div class="section-label" style="text-align:center">Agende sua sessão</div>
-  <h2 class="section-title" style="text-align:center">Agendamento online</h2>
-  <p class="subtitulo">Escolha o serviço, sugira um horário e entrarei em contato para confirmar.</p>
-
+<section class="formulario" id="agendamento" style="background:var(--bg)">
+  <div class="section-label" style="text-align:center" data-i18n="ag-label">Agende sua sessão</div>
+  <h2 class="section-title" style="text-align:center" data-i18n="ag-title">Agendamento online</h2>
+  <p class="subtitulo" data-i18n="ag-p">Escolha o serviço, sugira um horário e entrarei em contato para confirmar.</p>
   <div class="form-container fade-in" style="background:white">
     <div id="ag-conteudo">
       <div class="form-row">
-        <div class="form-group">
-          <label>Nome completo *</label>
-          <input id="ag-nome" type="text" placeholder="Seu nome"/>
-        </div>
-        <div class="form-group">
-          <label>Telefone / WhatsApp *</label>
-          <input id="ag-tel" type="tel" placeholder="(11) 99999-9999"/>
-        </div>
+        <div class="form-group"><label>Nome completo *</label><input id="ag-nome" type="text" placeholder="Seu nome"/></div>
+        <div class="form-group"><label>Telefone / WhatsApp *</label><input id="ag-tel" type="tel" placeholder="(11) 99999-9999"/></div>
       </div>
-      <div class="form-group">
-        <label>Email</label>
-        <input id="ag-email" type="email" placeholder="seu@email.com"/>
-      </div>
-      <div class="form-group">
-        <label>Serviço desejado *</label>
+      <div class="form-group"><label>Email</label><input id="ag-email" type="email" placeholder="seu@email.com"/></div>
+      <div class="form-group"><label>Serviço desejado *</label>
         <select id="ag-servico">
           <option value="">Selecione...</option>
           <option>Consulta Individual — Online</option>
@@ -388,12 +284,8 @@ footer span{color:var(--verde-claro)}
         </select>
       </div>
       <div class="form-row">
-        <div class="form-group">
-          <label>Data sugerida *</label>
-          <input id="ag-data" type="date"/>
-        </div>
-        <div class="form-group">
-          <label>Horário sugerido *</label>
+        <div class="form-group"><label>Data sugerida *</label><input id="ag-data" type="date"/></div>
+        <div class="form-group"><label>Horário sugerido *</label>
           <select id="ag-hora">
             <option value="">Selecione...</option>
             <option>08:00</option><option>09:00</option><option>10:00</option>
@@ -403,17 +295,12 @@ footer span{color:var(--verde-claro)}
           </select>
         </div>
       </div>
-      <div class="form-group">
-        <label>Data alternativa (opcional)</label>
-        <input id="ag-data2" type="date"/>
-      </div>
-      <div class="form-group">
-        <label>Alguma observação?</label>
+      <div class="form-group"><label>Data alternativa (opcional)</label><input id="ag-data2" type="date"/></div>
+      <div class="form-group"><label>Alguma observação?</label>
         <textarea id="ag-obs" placeholder="Conte brevemente o que te motivou a buscar atendimento..."></textarea>
       </div>
       <button class="btn-enviar" onclick="enviarAgendamento()">Solicitar agendamento</button>
     </div>
-
     <div class="sucesso" id="ag-sucesso">
       <div class="sucesso-icon">📅</div>
       <h3>Solicitação enviada!</h3>
@@ -426,18 +313,84 @@ footer span{color:var(--verde-claro)}
   </div>
 </section>
 
+<!-- PRIMEIRO CONTATO -->
+<section class="formulario" id="formulario">
+  <div class="section-label" style="text-align:center" data-i18n="form-label">Vamos nos conhecer</div>
+  <h2 class="section-title" style="text-align:center" data-i18n="form-title">Primeiro contato</h2>
+  <p class="subtitulo" data-i18n="form-p">Preencha o formulário abaixo e entrarei em contato para conversarmos sobre como posso te ajudar.</p>
+  <div class="form-container fade-in">
+    <div id="form-conteudo">
+      <div class="form-row">
+        <div class="form-group"><label>Nome completo *</label><input id="f-nome" type="text" placeholder="Seu nome"/></div>
+        <div class="form-group"><label>Telefone / WhatsApp *</label><input id="f-tel" type="tel" placeholder="(11) 99999-9999"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input id="f-email" type="email" placeholder="seu@email.com"/></div>
+      <div class="form-row">
+        <div class="form-group"><label>Modalidade preferida *</label>
+          <select id="f-modalidade">
+            <option value="">Selecione...</option>
+            <option>Online</option>
+            <option>Presencial</option>
+            <option>Sem preferência</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Preferência de horário</label>
+          <select id="f-horario">
+            <option value="">Selecione...</option>
+            <option>Manhã (8h–12h)</option>
+            <option>Tarde (12h–18h)</option>
+            <option>Noite (18h–21h)</option>
+            <option>Qualquer horário</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group"><label>Como soube de mim?</label>
+        <select id="f-origem">
+          <option value="">Selecione...</option>
+          <option>Instagram</option>
+          <option>Indicação de amigo/familiar</option>
+          <option>Google</option>
+          <option>LinkedIn</option>
+          <option>Palestra</option>
+          <option>Outro</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Motivo do contato *</label>
+        <textarea id="f-motivo" placeholder="Conte um pouco sobre o que te trouxe até aqui."></textarea>
+      </div>
+      <div class="form-group"><label>Urgência</label>
+        <div class="urgencia-grid">
+          <div><input type="radio" name="urgencia" id="urg1" class="urgencia-opt" value="Sem pressa"/><label for="urg1" class="urgencia-label">🌿 Sem pressa</label></div>
+          <div><input type="radio" name="urgencia" id="urg2" class="urgencia-opt" value="Médio prazo" checked/><label for="urg2" class="urgencia-label">🕐 Médio prazo</label></div>
+          <div><input type="radio" name="urgencia" id="urg3" class="urgencia-opt" value="Urgente"/><label for="urg3" class="urgencia-label">⚡ Urgente</label></div>
+        </div>
+      </div>
+      <button class="btn-enviar" onclick="enviarFormulario()">Enviar mensagem</button>
+    </div>
+    <div class="sucesso" id="sucesso">
+      <div class="sucesso-icon">💚</div>
+      <h3>Mensagem recebida!</h3>
+      <p>Obrigado por entrar em contato. Entrarei em breve para conversarmos com mais calma.</p>
+      <a id="wpp-link" href="https://wa.link/1qqujp" target="_blank" class="btn-wpp-sucesso">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        Falar pelo WhatsApp
+      </a>
+    </div>
+  </div>
+</section>
+
 <section class="contato" id="contato">
-  <div class="section-label">Vamos conversar</div>
-  <h2 class="section-title">Entre em contato</h2>
-  <p>Dar o primeiro passo é o mais importante. Agende sua consulta ou tire suas dúvidas.</p>
+  <div class="section-label" data-i18n="contato-label">Vamos conversar</div>
+  <h2 class="section-title" data-i18n="contato-title">Entre em contato</h2>
+  <p data-i18n="contato-p">Dar o primeiro passo é o mais importante. Agende sua consulta ou tire suas dúvidas.</p>
   <div class="contato-btns">
     <a href="https://wa.link/1qqujp" target="_blank" class="btn-contato wpp">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      Agendar pelo WhatsApp
+      <span data-i18n="nav-agendar">Agendar consulta</span>
     </a>
     <a href="https://www.instagram.com/psicanalista_lucas_atilio/" target="_blank" class="btn-contato ig">
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-      Seguir no Instagram
+      <span data-i18n="btn-ig">Ver Instagram</span>
     </a>
   </div>
   <div class="info-extra">
@@ -446,11 +399,133 @@ footer span{color:var(--verde-claro)}
 </section>
 
 <footer>
-  <p>© 2025 <span>Lucas Atilio</span> — Psicanalista & Palestrante. Todos os direitos reservados.</p>
+  <p data-i18n="footer">© 2025 <span>Lucas Atilio</span> — Psicanalista & Palestrante. Todos os direitos reservados.</p>
 </footer>
 
 <script>
-const API_URL='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
+// SISTEMA DE IDIOMAS
+let idioma='pt';
+const traducoes={
+  pt:{
+    'hero-tag':'Psicanalista & Palestrante',
+    'hero-h1':'Cuidar de si é o maior ato de <span>transformação</span>',
+    'hero-p':'Atendimento online e presencial para quem busca autoconhecimento, equilíbrio e uma vida com mais sentido.',
+    'btn-contato':'✉️ Fazer primeiro contato',
+    'btn-ig':'Ver Instagram',
+    'sobre-label':'Sobre',
+    'sobre-title':'Quem é Lucas Atilio',
+    'sobre-p1':'Lucas Atilio é psicanalista e palestrante comprometido com um cuidado humano, acessível e transformador. Com uma escuta atenta e um olhar sensível, ele acompanha pessoas em diferentes momentos da vida — sejam desafios emocionais, relacionamentos, autoestima ou a busca por sentido.',
+    'sobre-p2':'Acredita que o autoconhecimento é o ponto de partida para qualquer mudança real. Por isso, oferece um espaço seguro, sem julgamentos, onde cada pessoa pode se ouvir de verdade.',
+    'sobre-p3':'Atende de forma <strong>online e presencial</strong>, tornando o cuidado com a saúde mental acessível para todos.',
+    'sobre-quote':'"Autoconhecimento, cuidado e transformação — esses são os pilares de um processo analítico que respeita quem você é e quem você pode vir a ser."',
+    'pilares-label':'Minha abordagem',
+    'pilares-title':'Os pilares do meu trabalho',
+    'pilar1-title':'Autoconhecimento',
+    'pilar1-p':'O caminho para uma vida mais plena começa quando nos permitimos olhar para dentro, com curiosidade e sem julgamento.',
+    'pilar2-title':'Cuidado',
+    'pilar2-p':'Um espaço de escuta genuína, onde sua história importa e cada detalhe é acolhido com respeito e presença.',
+    'pilar3-title':'Transformação',
+    'pilar3-p':'Mudanças reais acontecem quando há um processo consistente. A análise é a ferramenta para essa jornada de renovação.',
+    'servicos-label':'Como posso ajudar',
+    'servicos-title':'Serviços',
+    'serv1-title':'Atendimento Online',
+    'serv1-p':'Consultas por videochamada, com toda a privacidade e conforto da sua casa. Atendo pessoas de qualquer lugar do Brasil e do mundo.',
+    'serv2-title':'Atendimento Presencial',
+    'serv2-p':'Para quem prefere o encontro presencial. Um espaço acolhedor e seguro para que você possa se expressar livremente.',
+    'serv3-title':'Palestras',
+    'serv3-p':'Palestras sobre saúde mental, autoconhecimento e bem-estar para empresas, instituições e eventos.',
+    'serv4-title':'Atendimento para Todos',
+    'serv4-p':'Acredito que o cuidado com a saúde mental deve ser acessível. Atendo adultos de diferentes contextos e realidades.',
+    'blog-label':'Reflexões & Escritos',
+    'blog-title':'Blog',
+    'blog-p':'Textos sobre psicanálise, saúde mental e autoconhecimento.',
+    'blog-substack':'📖 Ver todos os artigos no Substack',
+    'ag-label':'Agende sua sessão',
+    'ag-title':'Agendamento online',
+    'ag-p':'Escolha o serviço, sugira um horário e entrarei em contato para confirmar.',
+    'form-label':'Vamos nos conhecer',
+    'form-title':'Primeiro contato',
+    'form-p':'Preencha o formulário abaixo e entrarei em contato para conversarmos sobre como posso te ajudar.',
+    'contato-label':'Vamos conversar',
+    'contato-title':'Entre em contato',
+    'contato-p':'Dar o primeiro passo é o mais importante. Agende sua consulta ou tire suas dúvidas.',
+    'footer':'© 2025 <span>Lucas Atilio</span> — Psicanalista & Palestrante. Todos os direitos reservados.',
+    'nav-sobre':'Sobre',
+    'nav-servicos':'Serviços',
+    'nav-contato':'Contato',
+    'nav-agendar':'Agendar consulta',
+    'nav-blog':'Blog',
+    'nav-primeiro':'Primeiro contato',
+    'nav-agendar2':'Agendar',
+    'lang-btn':'🇺🇸 EN'
+  },
+  en:{
+    'hero-tag':'Psychoanalyst & Speaker',
+    'hero-h1':'Taking care of yourself is the greatest act of <span>transformation</span>',
+    'hero-p':'Online and in-person sessions for those seeking self-knowledge, balance, and a more meaningful life.',
+    'btn-contato':'✉️ Get in touch',
+    'btn-ig':'Follow on Instagram',
+    'sobre-label':'About',
+    'sobre-title':'Who is Lucas Atilio',
+    'sobre-p1':'Lucas Atilio is a psychoanalyst and speaker committed to a human, accessible, and transformative approach to care. With attentive listening and a sensitive perspective, he accompanies people through different moments in life — whether emotional challenges, relationships, self-esteem, or the search for meaning.',
+    'sobre-p2':'He believes that self-knowledge is the starting point for any real change. That is why he offers a safe, non-judgmental space where each person can truly listen to themselves.',
+    'sobre-p3':'Sessions available <strong>online and in-person</strong>, making mental health care accessible to everyone.',
+    'sobre-quote':'"Self-knowledge, care, and transformation — these are the pillars of an analytic process that respects who you are and who you can become."',
+    'pilares-label':'My approach',
+    'pilares-title':'The pillars of my work',
+    'pilar1-title':'Self-knowledge',
+    'pilar1-p':'The path to a fuller life begins when we allow ourselves to look inward, with curiosity and without judgment.',
+    'pilar2-title':'Care',
+    'pilar2-p':'A space for genuine listening, where your story matters and every detail is welcomed with respect and presence.',
+    'pilar3-title':'Transformation',
+    'pilar3-p':'Real change happens when there is a consistent process. Psychoanalysis is the tool for this journey of renewal.',
+    'servicos-label':'How I can help',
+    'servicos-title':'Services',
+    'serv1-title':'Online Sessions',
+    'serv1-p':'Video call consultations with full privacy and comfort from your home. I work with people from anywhere in the world.',
+    'serv2-title':'In-person Sessions',
+    'serv2-p':'For those who prefer face-to-face meetings. A welcoming and safe space for you to express yourself freely.',
+    'serv3-title':'Lectures & Talks',
+    'serv3-p':'Talks on mental health, self-knowledge, and well-being for companies, institutions, and events.',
+    'serv4-title':'Accessible Care',
+    'serv4-p':'I believe mental health care should be accessible to everyone. I work with adults from different backgrounds and realities.',
+    'blog-label':'Reflections & Writing',
+    'blog-title':'Blog',
+    'blog-p':'Articles on psychoanalysis, mental health, and self-knowledge.',
+    'blog-substack':'📖 Read all articles on Substack',
+    'ag-label':'Schedule your session',
+    'ag-title':'Online scheduling',
+    'ag-p':'Choose the service, suggest a time, and I will get in touch to confirm.',
+    'form-label':'Let\'s get to know each other',
+    'form-title':'First contact',
+    'form-p':'Fill out the form below and I will get in touch to talk about how I can help you.',
+    'contato-label':'Let\'s talk',
+    'contato-title':'Get in touch',
+    'contato-p':'Taking the first step is the most important thing. Schedule your consultation or ask your questions.',
+    'footer':'© 2025 <span>Lucas Atilio</span> — Psychoanalyst & Speaker. All rights reserved.',
+    'nav-sobre':'About',
+    'nav-servicos':'Services',
+    'nav-contato':'Contact',
+    'nav-agendar':'Schedule',
+    'nav-blog':'Blog',
+    'nav-primeiro':'First contact',
+    'nav-agendar2':'Schedule',
+    'lang-btn':'🇧🇷 PT'
+  }
+};
+
+function alternarIdioma(){
+  idioma=idioma==='pt'?'en':'pt';
+  aplicarIdioma();
+}
+function aplicarIdioma(){
+  const t=traducoes[idioma];
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const key=el.getAttribute('data-i18n');
+    if(t[key]!==undefined)el.innerHTML=t[key];
+  });
+  document.documentElement.lang=idioma==='pt'?'pt-BR':'en';
+}
 
 // BLOG
 const BLOG_API='https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec';
@@ -494,195 +569,35 @@ async function enviarAgendamento(){
   const servico=document.getElementById('ag-servico').value;
   const data=document.getElementById('ag-data').value;
   const hora=document.getElementById('ag-hora').value;
-  if(!nome||!tel||!servico||!data||!hora){
-    alert('Preencha os campos obrigatórios: nome, telefone, serviço, data e horário.');return;
-  }
-  const ag={
-    id:Date.now(),nome,tel,
-    email:document.getElementById('ag-email').value,
-    servico,data,hora,
-    data2:document.getElementById('ag-data2').value,
-    obs:document.getElementById('ag-obs').value,
-    status:'Aguardando confirmação',
-    lido:false,
-    criado:new Date().toISOString()
-  };
-  await fetch(API_URL,{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sheet:'agendamentos',action:'save',row:ag})});
-  const [y,m,d]=data.split('-');
-  const msg=encodeURIComponent(
-    `Olá Lucas! Sou *${nome}* e fiz uma solicitação de agendamento pelo seu site.\n\n`+
-    `📋 Serviço: ${servico}\n`+
-    `📅 Data sugerida: ${d}/${m}/${y} às ${hora}\n`+
-    `${document.getElementById('ag-data2').value?'📅 Alternativa: '+document.getElementById('ag-data2').value+'\n':''}`+
-    `${ag.obs?'\n💬 '+ag.obs:''}`
-  );
+  if(!nome||!tel||!servico||!data||!hora){alert('Preencha os campos obrigatórios: nome, telefone, serviço, data e horário.');return;}
+  const ag={id:Date.now(),nome,tel,email:document.getElementById('ag-email').value,servico,data,hora,data2:document.getElementById('ag-data2').value,obs:document.getElementById('ag-obs').value,status:'Aguardando confirmação',lido:false,criado:new Date().toISOString()};
+  await fetch('https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sheet:'agendamentos',action:'save',row:ag})});
+  const[y,m,d]=data.split('-');
+  const msg=encodeURIComponent(`Olá Lucas! Sou *${nome}* e fiz uma solicitação de agendamento pelo seu site.\n\n📋 Serviço: ${servico}\n📅 Data sugerida: ${d}/${m}/${y} às ${hora}\n${document.getElementById('ag-data2').value?'📅 Alternativa: '+document.getElementById('ag-data2').value+'\n':''}${ag.obs?'\n💬 '+ag.obs:''}`);
   document.getElementById('ag-wpp-link').href=`https://wa.me/5511964403709?text=${msg}`;
   document.getElementById('ag-conteudo').style.display='none';
   document.getElementById('ag-sucesso').style.display='block';
 }
 
-// SISTEMA DE IDIOMAS
-let idioma='pt';
-const traducoes={
-  pt:{
-    'hero-tag':'Psicanalista & Palestrante',
-    'hero-h1':'Cuidar de si é o maior ato de <span>transformação</span>',
-    'hero-p':'Atendimento online e presencial para quem busca autoconhecimento, equilíbrio e uma vida com mais sentido.',
-    'btn-contato':'✉️ Fazer primeiro contato',
-    'btn-ig':'Ver Instagram',
-    'sobre-label':'Sobre',
-    'sobre-title':'Quem é Lucas Atilio',
-    'sobre-p1':'Lucas Atilio é psicanalista e palestrante comprometido com um cuidado humano, acessível e transformador. Com uma escuta atenta e um olhar sensível, ele acompanha pessoas em diferentes momentos da vida — sejam desafios emocionais, relacionamentos, autoestima ou a busca por sentido.',
-    'sobre-p2':'Acredita que o autoconhecimento é o ponto de partida para qualquer mudança real. Por isso, oferece um espaço seguro, sem julgamentos, onde cada pessoa pode se ouvir de verdade.',
-    'sobre-p3':'Atende de forma <strong>online e presencial</strong>, tornando o cuidado com a saúde mental acessível para todos.',
-    'pilares-label':'Minha abordagem',
-    'pilares-title':'Os pilares do meu trabalho',
-    'pilar1-title':'Autoconhecimento',
-    'pilar1-p':'O caminho para uma vida mais plena começa quando nos permitimos olhar para dentro, com curiosidade e sem julgamento.',
-    'pilar2-title':'Cuidado',
-    'pilar2-p':'Um espaço de escuta genuína, onde sua história importa e cada detalhe é acolhido com respeito e presença.',
-    'pilar3-title':'Transformação',
-    'pilar3-p':'Mudanças reais acontecem quando há um processo consistente. A análise é a ferramenta para essa jornada de renovação.',
-    'servicos-label':'Como posso ajudar',
-    'servicos-title':'Serviços',
-    'serv1-title':'Atendimento Online',
-    'serv1-p':'Consultas por videochamada, com toda a privacidade e conforto da sua casa. Atendo pessoas de qualquer lugar do Brasil e do mundo.',
-    'serv2-title':'Atendimento Presencial',
-    'serv2-p':'Para quem prefere o encontro presencial. Um espaço acolhedor e seguro para que você possa se expressar livremente.',
-    'serv3-title':'Palestras',
-    'serv3-p':'Palestras sobre saúde mental, autoconhecimento e bem-estar para empresas, instituições e eventos.',
-    'serv4-title':'Atendimento para Todos',
-    'serv4-p':'Acredito que o cuidado com a saúde mental deve ser acessível. Atendo adultos de diferentes contextos e realidades.',
-    'blog-label':'Reflexões & Escritos',
-    'blog-title':'Blog',
-    'blog-p':'Textos sobre psicanálise, saúde mental e autoconhecimento.',
-    'blog-substack':'📖 Ver todos os artigos no Substack',
-    'ag-label':'Agende sua sessão',
-    'ag-title':'Agendamento online',
-    'ag-p':'Escolha o serviço, sugira um horário e entrarei em contato para confirmar.',
-    'contato-label':'Vamos conversar',
-    'contato-title':'Entre em contato',
-    'contato-p':'Dar o primeiro passo é o mais importante. Agende sua consulta ou tire suas dúvidas.',
-    'footer':'© 2025 <span>Lucas Atilio</span> — Psicanalista & Palestrante. Todos os direitos reservados.',
-    'nav-sobre':'Sobre',
-    'nav-servicos':'Serviços',
-    'nav-contato':'Contato',
-    'nav-agendar':'Agendar consulta',
-    'nav-blog':'Blog',
-    'nav-primeiro':'Primeiro contato',
-    'nav-agendar2':'Agendar',
-    'lang-btn':'🇺🇸 EN'
-  },
-  en:{
-    'hero-tag':'Psychoanalyst & Speaker',
-    'hero-h1':'Taking care of yourself is the greatest act of <span>transformation</span>',
-    'hero-p':'Online and in-person sessions for those seeking self-knowledge, balance, and a more meaningful life.',
-    'btn-contato':'✉️ Get in touch',
-    'btn-ig':'Follow on Instagram',
-    'sobre-label':'About',
-    'sobre-title':'Who is Lucas Atilio',
-    'sobre-p1':'Lucas Atilio is a psychoanalyst and speaker committed to a human, accessible, and transformative approach to care. With attentive listening and a sensitive perspective, he accompanies people through different moments in life — whether emotional challenges, relationships, self-esteem, or the search for meaning.',
-    'sobre-p2':'He believes that self-knowledge is the starting point for any real change. That is why he offers a safe, non-judgmental space where each person can truly listen to themselves.',
-    'sobre-p3':'Sessions available <strong>online and in-person</strong>, making mental health care accessible to everyone.',
-    'pilares-label':'My approach',
-    'pilares-title':'The pillars of my work',
-    'pilar1-title':'Self-knowledge',
-    'pilar1-p':'The path to a fuller life begins when we allow ourselves to look inward, with curiosity and without judgment.',
-    'pilar2-title':'Care',
-    'pilar2-p':'A space for genuine listening, where your story matters and every detail is welcomed with respect and presence.',
-    'pilar3-title':'Transformation',
-    'pilar3-p':'Real change happens when there is a consistent process. Psychoanalysis is the tool for this journey of renewal.',
-    'servicos-label':'How I can help',
-    'servicos-title':'Services',
-    'serv1-title':'Online Sessions',
-    'serv1-p':'Video call consultations with full privacy and comfort from your home. I work with people from anywhere in the world.',
-    'serv2-title':'In-person Sessions',
-    'serv2-p':'For those who prefer face-to-face meetings. A welcoming and safe space for you to express yourself freely.',
-    'serv3-title':'Lectures & Talks',
-    'serv3-p':'Talks on mental health, self-knowledge, and well-being for companies, institutions, and events.',
-    'serv4-title':'Accessible Care',
-    'serv4-p':'I believe mental health care should be accessible to everyone. I work with adults from different backgrounds and realities.',
-    'blog-label':'Reflections & Writing',
-    'blog-title':'Blog',
-    'blog-p':'Articles on psychoanalysis, mental health, and self-knowledge.',
-    'blog-substack':'📖 Read all articles on Substack',
-    'ag-label':'Schedule your session',
-    'ag-title':'Online scheduling',
-    'ag-p':'Choose the service, suggest a time, and I will get in touch to confirm.',
-    'contato-label':'Let\'s talk',
-    'contato-title':'Get in touch',
-    'contato-p':'Taking the first step is the most important thing. Schedule your consultation or ask your questions.',
-    'footer':'© 2025 <span>Lucas Atilio</span> — Psychoanalyst & Speaker. All rights reserved.',
-    'nav-sobre':'About',
-    'nav-servicos':'Services',
-    'nav-contato':'Contact',
-    'nav-agendar':'Schedule',
-    'nav-blog':'Blog',
-    'nav-primeiro':'First contact',
-    'nav-agendar2':'Schedule',
-    'lang-btn':'🇧🇷 PT'
-  }
-};
-
-function alternarIdioma(){
-  idioma=idioma==='pt'?'en':'pt';
-  aplicarIdioma();
-}
-
-function aplicarIdioma(){
-  const t=traducoes[idioma];
-  document.querySelectorAll('[data-i18n]').forEach(el=>{
-    const key=el.getAttribute('data-i18n');
-    if(t[key]!==undefined) el.innerHTML=t[key];
-  });
-  document.getElementById('lang-btn').textContent=t['lang-btn'];
-  document.documentElement.lang=idioma;
-}
-
 async function enviarFormulario(){
-  const nome = document.getElementById('f-nome').value.trim();
-  const tel = document.getElementById('f-tel').value.trim();
-  const modalidade = document.getElementById('f-modalidade').value;
-  const motivo = document.getElementById('f-motivo').value.trim();
-  if(!nome||!tel||!modalidade||!motivo){
-    alert('Por favor preencha os campos obrigatórios: nome, telefone, modalidade e motivo.');
-    return;
-  }
-  const urgencia = document.querySelector('input[name="urgencia"]:checked')?.value||'Médio prazo';
-  const contato = {
-    id: Date.now(),
-    nome, tel,
-    email: document.getElementById('f-email').value,
-    modalidade,
-    horario: document.getElementById('f-horario').value,
-    origem: document.getElementById('f-origem').value,
-    motivo,
-    urgencia,
-    data: new Date().toISOString(),
-    lido: false
-  };
-  await fetch('https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec',{
-    method:'POST',
-    headers:{'Content-Type':'text/plain'},
-    body:JSON.stringify({sheet:'contatos',action:'save',row:contato})
-  });
-  // Montar mensagem WhatsApp
-  const msg = encodeURIComponent(
-    `Olá Lucas! Me chamo *${nome}* e preenchi o formulário do seu site.\n\n` +
-    `📱 Telefone: ${tel}\n` +
-    `🎯 Modalidade: ${modalidade}\n` +
-    `⏰ Urgência: ${urgencia}\n\n` +
-    `💬 Motivo: ${motivo}`
-  );
-  document.getElementById('wpp-link').href = `https://wa.me/5511964403709?text=${msg}`;
+  const nome=document.getElementById('f-nome').value.trim();
+  const tel=document.getElementById('f-tel').value.trim();
+  const modalidade=document.getElementById('f-modalidade').value;
+  const motivo=document.getElementById('f-motivo').value.trim();
+  if(!nome||!tel||!modalidade||!motivo){alert('Por favor preencha os campos obrigatórios: nome, telefone, modalidade e motivo.');return;}
+  const urgencia=document.querySelector('input[name="urgencia"]:checked')?.value||'Médio prazo';
+  const contato={id:Date.now(),nome,tel,email:document.getElementById('f-email').value,modalidade,horario:document.getElementById('f-horario').value,origem:document.getElementById('f-origem').value,motivo,urgencia,data:new Date().toISOString(),lido:false};
+  await fetch('https://script.google.com/macros/s/AKfycbzwtuLGSstYjzIVJTOLfn24Upwpf7SHaw5cDh9mvt9VQazbG9d6VG974qiOZSkJV5tT/exec',{method:'POST',headers:{'Content-Type':'text/plain'},body:JSON.stringify({sheet:'contatos',action:'save',row:contato})});
+  const msg=encodeURIComponent(`Olá Lucas! Me chamo *${nome}* e preenchi o formulário do seu site.\n\n📱 Telefone: ${tel}\n🎯 Modalidade: ${modalidade}\n⏰ Urgência: ${urgencia}\n\n💬 Motivo: ${motivo}`);
+  document.getElementById('wpp-link').href=`https://wa.me/5511964403709?text=${msg}`;
   document.getElementById('form-conteudo').style.display='none';
   document.getElementById('sucesso').style.display='block';
 }
 
-const obs = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible')});
 },{threshold:0.15});
-document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+document.querySelectorAll('.fade-in').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
